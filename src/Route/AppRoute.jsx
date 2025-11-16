@@ -9,8 +9,6 @@ import Nav from "../Components/Nav";
 import Home from "../Pages/Home";
 import Footer from "../Components/Footer";
 import AuthPage from "../Pages/Auth";
-import { DashboardLayout } from "../Components/User/DashboardLayout"; 
-import { DummyPage } from "../Pages/User/DummyPAge";
 
 import UserDashboard from "../Components/User/UserDashboard";
 
