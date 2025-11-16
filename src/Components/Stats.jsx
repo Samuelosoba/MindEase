@@ -9,7 +9,7 @@ export default function Stats() {
   });
 
   return (
-    <section ref={ref} className="py-30 mt-12 bg-[#e8f2fc]  text-center">
+    <section ref={ref} className="py-35 bg-[#e8f2fc]  text-center">
       <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         <div>
           <h2 className="text-3xl font-bold text-[#1560B7]">
