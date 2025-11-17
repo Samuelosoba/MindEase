@@ -36,7 +36,7 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
       label: "MindEase Ai Assistant",
       path: "/user/assistant",
     },
-    { icon: MoonStar, label: "Sleep Support", path: "/user/budgets" },
+    { icon: MoonStar, label: "Sleep Support", path: "/user/sleep-support" },
     { icon: Hourglass, label: "Time Management", path: "/goals" },
     { icon: HeartHandshake, label: "Stress Management", path: "/reports" },
   ];
