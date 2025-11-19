@@ -5,6 +5,8 @@ import Dashboard from "../../Pages/User/Dashboard";
 import { AIChatbotPage } from "../../Pages/User/AiChatBotPage";
 import Settings from "../../Pages/User/Settings";
 import SleepSupport from "../../Pages/User/SleepSupport";
+import TimeManagement from "../../Pages/User/TimeManagement";
+import StressManagement from "../../Pages/User/StressManagement";
 
 const UserDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +31,8 @@ const UserDashboard = () => {
           <Route path="/assistant" element={<AIChatbotPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/sleep-support" element={<SleepSupport />} />
+          <Route path="/time-management" element={<TimeManagement />} />
+          <Route path="/stress-management" element={<StressManagement />} />
         </Routes>
       </div>
     </div>

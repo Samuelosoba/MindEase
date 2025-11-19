@@ -11,6 +11,7 @@ import Footer from "../Components/Footer";
 import AuthPage from "../Pages/Auth";
 
 import UserDashboard from "../Components/User/UserDashboard";
+import SelectionPage from "../Pages/User/SelectionPage";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -41,6 +42,7 @@ export default function AppRoute() {
               </Layout>
             }
           />
+          <Route path="selection" element={<SelectionPage />} />
           <Route path="auth" element={<AuthPage />} />
           {/* User */}
           <Route path="/user/*" element={<UserDashboard />} />

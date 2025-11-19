@@ -25,8 +25,16 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
       path: "/user/assistant",
     },
     { icon: MoonStar, label: "Sleep Support", path: "/user/sleep-support" },
-    { icon: Hourglass, label: "Time Management", path: "/goals" },
-    { icon: HeartHandshake, label: "Stress Management", path: "/reports" },
+    {
+      icon: Hourglass,
+      label: "Time Management",
+      path: "/user/time-management",
+    },
+    {
+      icon: HeartHandshake,
+      label: "Stress Management",
+      path: "/user/stress-management",
+    },
   ];
 
   const handleLogout = () => navigate("/");

@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "../../Components/User/Dialog";
 import { Moon, BookOpen, Trees, User } from "lucide-react";
+// import TrackCard from "../../Components/User/TrackCard";
 
 /* ---------- Data (unchanged) ---------- */
 const tracks = [
@@ -150,6 +151,20 @@ export default function SleepSupport() {
   const [duration, setDuration] = useState(0);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const audioRef = useRef(null);
+  const [isLooping, setIsLooping] = useState(false);
+  const [showVolume, setShowVolume] = useState(false);
+  const [volume, setVolume] = useState(1);
+
+  const handleReplay = () => {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+    setIsPlaying(true);
+  };
+  // const toggleLoop = () => {
+  //   const newLoopValue = !isLooping;
+  //   setIsLooping(newLoopValue);
+  //   audioRef.current.loop = newLoopValue;
+  // };
 
   /* Keep audio element in sync whenever currentTrack changes */
   useEffect(() => {
@@ -298,6 +313,11 @@ export default function SleepSupport() {
       }, 150);
     }
   };
+  const toggleLoop = () => {
+    const newLoopValue = !isLooping;
+    setIsLooping(newLoopValue);
+    audioRef.current.loop = newLoopValue;
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen w-full">
@@ -339,7 +359,7 @@ export default function SleepSupport() {
         </div>
 
         {/* Main Player */}
-        <div className="bg-white w-full rounded-[20px]">
+        <div className="bg-white/100 w-full rounded-[20px]">
           <div className="p-6 md:p-10 flex flex-col items-center">
             <div className="bg-[#e8f2fc] w-full rounded-lg p-4 md:p-6">
               <div className="flex flex-col items-center">
@@ -415,9 +435,10 @@ export default function SleepSupport() {
 
                 {/* Controls */}
                 <div className="mt-4 flex items-center gap-4">
+                  {/* Previous */}
                   <button
                     onClick={handlePrevious}
-                    className="w-[44px] h-[44px] rounded-full flex items-center justify-center hover:opacity-80 transition"
+                    className="w-11 h-11 rounded-full flex items-center justify-center hover:opacity-80 transition"
                     aria-label="Previous"
                   >
                     <svg className="w-6 h-6" viewBox="0 0 50 50" fill="none">
@@ -425,9 +446,10 @@ export default function SleepSupport() {
                     </svg>
                   </button>
 
+                  {/* PLAY / PAUSE */}
                   <button
                     onClick={togglePlay}
-                    className="w-[56px] h-[56px] rounded-full flex items-center justify-center transition"
+                    className="w-14 h-14 rounded-full flex items-center justify-center transition"
                     aria-label={isPlaying ? "Pause" : "Play"}
                   >
                     <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -439,13 +461,35 @@ export default function SleepSupport() {
                     </svg>
                   </button>
 
+                  {/* Next */}
                   <button
                     onClick={handleNext}
-                    className="w-[44px] h-[44px] rounded-full flex items-center justify-center hover:opacity-80 transition"
+                    className="w-11 h-11 rounded-full flex items-center justify-center hover:opacity-80 transition"
                     aria-label="Next"
                   >
                     <svg className="w-6 h-6" viewBox="0 0 50 50" fill="none">
                       <path d={svgPaths.p29886500} fill="black" />
+                    </svg>
+                  </button>
+
+                  {/* Loop / Keep Replaying */}
+                  <button
+                    onClick={toggleLoop}
+                    className={`w-11 h-11 rounded-full flex items-center justify-center transition ${
+                      isLooping ? "bg-[#d2e5f9]" : ""
+                    }`}
+                    aria-label="Loop Track"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="black"
+                      strokeWidth="2"
+                    >
+                      <path d="M3 12a9 9 0 0 1 9-9h3" />
+                      <path d="M21 12a9 9 0 0 1-9 9h-3" />
+                      <polyline points="12 2 15 5 12 8" />
+                      <polyline points="12 22 9 19 12 16" />
                     </svg>
                   </button>
                 </div>
@@ -468,8 +512,8 @@ export default function SleepSupport() {
               <TrackCard
                 key={t.id}
                 track={t}
-                isActive={currentTrack.id === t.id}
-                onClick={() => handleTrackSelect(t)}
+                isActive={currentTrack?.id === t.id}
+                onOpen={() => handleTrackSelect(t)}
               />
             ))}
           </div>
@@ -494,18 +538,25 @@ export default function SleepSupport() {
       </div>
 
       {/* Playlist Modal */}
+
       <Dialog
         open={!!selectedPlaylist}
         onOpenChange={() => setSelectedPlaylist(null)}
       >
-        <DialogContent className="max-w-[600px] max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-[600px] max-h-[80vh] overflow-y-auto bg-gray-200">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-4">
               {selectedPlaylist && (
                 <>
-                  <div className="w-[60px] h-[60px] flex items-center justify-center bg-[#e8f2fc] rounded-full">
-                    <selectedPlaylist.icon className="w-8 h-8 text-[#1560b7]" />
-                  </div>
+                  {(() => {
+                    const Icon = selectedPlaylist.icon;
+                    return (
+                      <div className="w-[60px] h-[60px] flex items-center justify-center bg-[#e8f2fc] rounded-full">
+                        <Icon className="w-8 h-8 text-[#1560b7]" />
+                      </div>
+                    );
+                  })()}
+
                   <div>
                     <div className="text-[20px] md:text-[28px] text-[#1560b7] font-['Poppins:Medium']">
                       {selectedPlaylist.title}
@@ -521,25 +572,28 @@ export default function SleepSupport() {
 
           {selectedPlaylist && (
             <div className="mt-4 px-2">
-              {selectedPlaylist.tracks.map((trackName, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
-                >
-                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#e8f2fc] text-[#1560b7] font-semibold">
-                    {idx + 1}
-                  </div>
+              {selectedPlaylist.tracks.map((trackName, idx) => {
+                const track = tracks.find((t) => t.title === trackName);
 
-                  <div className="flex-1">
-                    <div className="text-[16px]">{trackName}</div>
-                    <div className="text-[12px] text-gray-500">
-                      {/* Try to find duration if track exists in our tracks array */}
-                      {tracks.find((t) => t.title === trackName)?.duration ??
-                        ""}
+                return (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                  >
+                    {/* Track Index */}
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#e8f2fc] text-[#1560b7] font-semibold">
+                      {idx + 1}
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2">
+                    {/* Track Info */}
+                    <div className="flex-1">
+                      <div className="text-[16px]">{trackName}</div>
+                      <div className="text-[12px] text-gray-500">
+                        {track?.duration ?? ""}
+                      </div>
+                    </div>
+
+                    {/* Play Button */}
                     <button
                       onClick={() => playTrackByName(trackName)}
                       className="px-3 py-1 rounded-md bg-[#1560b7] text-white text-sm"
@@ -548,8 +602,8 @@ export default function SleepSupport() {
                       Play
                     </button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </DialogContent>
@@ -559,11 +613,12 @@ export default function SleepSupport() {
 }
 
 /* ---------- TrackCard component (in-file) ---------- */
+
 function TrackCard({ track, isActive, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full h-[300px] rounded-[16px] transition-transform transform hover:scale-[1.02] cursor-pointer text-left focus:outline-none ${
+      className={`w-full h-[300px] rounded-2xl transition-transform transform hover:scale-[1.02] cursor-pointer text-left focus:outline-none ${
         isActive
           ? "bg-[#d2e5f9] border-2 border-[#104889]"
           : "bg-[#e8f2fc] border border-[#104889]"
@@ -571,7 +626,7 @@ function TrackCard({ track, isActive, onClick }) {
       aria-pressed={isActive}
     >
       <div className="flex flex-col items-center justify-center h-full p-4">
-        <div className="w-[100px] h-[100px] rounded-[8px] overflow-hidden">
+        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden">
           <img
             alt={track.title}
             className="w-full h-full object-cover"

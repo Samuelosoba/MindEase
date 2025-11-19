@@ -58,7 +58,7 @@ export default function AuthPage() {
 
         if (data?.token) {
           localStorage.setItem("auth_token", data.token);
-          navigate("/user");
+          navigate("/selection");
         } else {
           alert("Logged in (no token)");
         }
