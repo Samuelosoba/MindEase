@@ -5,8 +5,10 @@ import * as Yup from "yup";
 import Nav from "../Components/Nav";
 import { FcGoogle } from "react-icons/fc";
 import Logo from "../assets/MindEase.png";
+import { useNavigate } from "react-router-dom";
 
-const API_BASE = "";
+
+const API_BASE = "https://mind-ease-backend-f68j.onrender.com/api/v1";
 
 function Input({ label, id, type = "text", formik, name, placeholder }) {
   return (
@@ -35,6 +37,8 @@ export default function AuthPage() {
   const [mode, setMode] = useState("login");
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const navigate = useNavigate();
+
 
   const loginFormik = useFormik({
     initialValues: { email: "", password: "" },
@@ -48,12 +52,13 @@ export default function AuthPage() {
       setApiError("");
       setLoading(true);
       try {
-        const res = await axios.post(`${API_BASE}/api/auth/login`, values);
+        const res = await axios.post(`${API_BASE}/auth/login`, values);
+
         const { data } = res;
 
         if (data?.token) {
           localStorage.setItem("auth_token", data.token);
-          alert("Login successful");
+          navigate("/user");
         } else {
           alert("Logged in (no token)");
         }
@@ -88,7 +93,7 @@ export default function AuthPage() {
       setApiError("");
       setLoading(true);
       try {
-        await axios.post(`${API_BASE}/api/auth/register`, {
+        await axios.post(`${API_BASE}/auth/register-user`, {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
@@ -110,7 +115,7 @@ export default function AuthPage() {
       <div className="w-full  bg-white shadow-sm overflow-hidden">
         <Nav />
 
-        <div className="px-4 sm:px-8 md:px-12 py-10  mt-20 ">
+        <div className="px-4 sm:px-8 md:px-12 py-10  mt-10">
           <div className="text-center">
             <div className="w-12 h-12  mx-auto mb-4 flex items-center justify-center text-white">
               <img

@@ -304,7 +304,7 @@ export default function SleepSupport() {
       {/* Hidden audio element */}
       <audio ref={audioRef} src={currentTrack.audio} />
 
-      <div className="box-border flex flex-col gap-8 items-center py-14 px-6 md:px-10 lg:px-16 w-full max-w-[1440px] mx-auto">
+      <div className="box-border flex flex-col gap-8 items-center py-14 px-3 md:px-10 lg:px-16 w-full max-w-[1440px] mx-auto">
         {/* Header */}
         <div className="w-full">
           <div className="text-black">
