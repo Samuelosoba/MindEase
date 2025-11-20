@@ -130,77 +130,74 @@ export default function TimeManagement() {
   return (
     <div className="min-h-screen bg-[#f6fafe] flex flex-col">
       {/* Header */}
-      <div className="px-6 md:px-8 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="px-4 md:px-8 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
-          <h1 className="text-black text-xl md:text-2xl">Time Management</h1>
-          <p className="text-[16px] md:text-[18px] text-black">
+          <h1 className="text-black text-lg md:text-xl font-medium">
+            Time Management
+          </h1>
+          <p className="text-sm md:text-base text-black">
             Monday, November 3, 2025
           </p>
         </div>
 
-        <button className="bg-[#1560b7] text-white px-5 md:px-6 py-3 md:py-4 rounded-2xl flex items-center gap-2 md:gap-3 hover:bg-[#104889] transition-colors">
-          <Bell className="w-5 h-5 md:w-6 md:h-6" />
-          <span className="text-sm md:text-[18px]">Email Reminders</span>
+        <button className="bg-[#1560b7] text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl flex items-center gap-2 hover:bg-[#104889] transition">
+          <Bell className="w-4 h-4 md:w-5 md:h-5" />
+          <span className="text-xs md:text-sm">Email Reminders</span>
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="px-6 md:px-8 pb-8 space-y-6 max-w-[1400px] w-full mx-auto">
+      {/* Main */}
+      <div className="px-4 md:px-8 pb-8 space-y-5 w-full max-w-[1400px] mx-auto">
         {/* Motivational Card */}
-        <div className="bg-[#a3c9f5] rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8">
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0 bg-white/20">
+        <div className="bg-[#a3c9f5] rounded-xl p-4 md:p-6 flex items-center gap-4">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden bg-white/20 shrink-0">
             <img
               src="https://images.unsplash.com/photo-1523705480679-b5d0cc17a656"
-              alt="Productivity"
               className="w-full h-full object-cover"
             />
           </div>
 
-          <div className="text-[#05182e] text-center md:text-left">
-            <p className="text-xl md:text-[24px]">
+          <div className="text-[#05182e]">
+            <p className="text-base md:text-lg font-medium">
               One task at a time, you're doing great!
             </p>
-            <p className="text-[16px] md:text-[18px]">
-              Small steps lead to big wins
-            </p>
+            <p className="text-sm md:text-base">Small steps lead to big wins</p>
           </div>
         </div>
 
-        {/* Today's Tasks */}
-        <div className="bg-white rounded-2xl border border-[#d2e5f9] p-5 md:p-8">
-          <h2 className="text-[20px] md:text-[24px] mb-6">Today's Task</h2>
+        {/* Tasks */}
+        <div className="bg-white rounded-xl border border-[#d2e5f9] p-4 md:p-6">
+          <h2 className="text-lg md:text-xl mb-4 font-medium">Today's Task</h2>
 
-          <div className="space-y-4 md:space-y-6">
+          <div className="space-y-3 md:space-y-4">
             {tasks.map((task) => {
               const styles = getStatusStyles(task.status);
               return (
                 <div
                   key={task.id}
-                  className="bg-[#f2f2f2] rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8"
+                  className="bg-[#f2f2f2] rounded-xl p-4 flex items-center gap-4"
                 >
                   <button
                     onClick={() => toggleTask(task.id)}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl border-2 border-[#1560b7] flex items-center justify-center hover:bg-[#1560b7] hover:text-white transition-all"
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-lg border-2 border-[#1560b7] flex items-center justify-center hover:bg-[#1560b7] hover:text-white transition"
                   >
                     {task.checked && (
-                      <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-[#1560b7]" />
+                      <CheckCircle2 className="w-5 h-5 text-[#1560b7]" />
                     )}
                   </button>
 
                   <div className="flex-1">
-                    <p className="text-lg md:text-[24px] text-[#333333]">
+                    <p className="text-base md:text-lg text-[#333]">
                       {task.title}
                     </p>
-                    <p className="text-[16px] md:text-[18px] text-[#333333]">
+                    <p className="text-xs md:text-sm text-[#333]">
                       {task.time}
                     </p>
                   </div>
 
-                  <div
-                    className={`${styles.bg} px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center`}
-                  >
+                  <div className={`${styles.bg} px-3 py-2 rounded-lg`}>
                     <span
-                      className={`${styles.text} text-[16px] md:text-[18px]`}
+                      className={`${styles.text} text-xs md:text-sm font-medium`}
                     >
                       {styles.label}
                     </span>
@@ -212,19 +209,18 @@ export default function TimeManagement() {
         </div>
 
         {/* Productivity Summary */}
-        <div className="bg-white rounded-2xl border border-[#d2e5f9] p-6 md:p-8">
-          <h2 className="text-[20px] md:text-[24px] mb-6">
+        <div className="bg-white rounded-xl border border-[#d2e5f9] p-4 md:p-6">
+          <h2 className="text-lg md:text-xl mb-4 font-medium">
             Productivity Summary
           </h2>
 
-          <div className="flex flex-col items-center gap-8">
-            {/* Circular Chart */}
-            <div className="relative w-full max-w-[250px] md:max-w-[300px] h-[250px] md:h-[300px] mx-auto">
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative w-[180px] h-[180px] md:w-60 md:h-60">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={pieData}
-                    innerRadius="60%"
+                    innerRadius="65%"
                     outerRadius="80%"
                     startAngle={90}
                     endAngle={-270}
@@ -237,50 +233,45 @@ export default function TimeManagement() {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-[#104889] text-center">
-                  <span className="block text-2xl md:text-[32px]">
+                  <span className="block text-xl md:text-2xl font-semibold">
                     {completionPercentage}%
                   </span>
-                  <span className="text-lg md:text-[24px]">Completed</span>
+                  <span className="text-sm md:text-base">Completed</span>
                 </p>
               </div>
             </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-4 md:flex md:gap-6 w-full">
-              <div className="flex-1 bg-[#e8f2fc] rounded-2xl p-4 md:p-6 text-center">
-                <p className="text-xl md:text-[24px] text-[#1560b7]">
+            <div className="grid grid-cols-2 gap-3 w-full">
+              <div className="bg-[#e8f2fc] rounded-xl p-4 text-center">
+                <p className="text-lg md:text-xl text-[#1560b7] font-semibold">
                   {completedCount}
                 </p>
-                <p className="text-[16px] md:text-[18px] text-[#1560b7]">
-                  Tasks done
-                </p>
+                <p className="text-xs md:text-sm text-[#1560b7]">Tasks done</p>
               </div>
-              <div className="flex-1 bg-[#ecf8ed] rounded-2xl p-4 md:p-6 text-center">
-                <p className="text-xl md:text-[24px] text-[#2a6f2d]">
+              <div className="bg-[#ecf8ed] rounded-xl p-4 text-center">
+                <p className="text-lg md:text-xl text-[#2a6f2d] font-semibold">
                   {remainingCount}
                 </p>
-                <p className="text-[16px] md:text-[18px] text-[#2a6f2d]">
-                  Remaining
-                </p>
+                <p className="text-xs md:text-sm text-[#2a6f2d]">Remaining</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* This Week */}
-        <div className="bg-white rounded-2xl border border-[#d2e5f9] p-6 md:p-8">
-          <h2 className="text-[20px] md:text-[24px] mb-6">This Week</h2>
+        {/* Week Summary */}
+        <div className="bg-white rounded-xl border border-[#d2e5f9] p-4 md:p-6">
+          <h2 className="text-lg md:text-xl mb-4 font-medium">This Week</h2>
 
-          <div className="w-full h-[250px] md:h-[300px]">
+          <div className="w-full h-[220px] md:h-[260px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weekData}>
                 <XAxis
                   dataKey="day"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#333", fontSize: 12 }}
+                  tick={{ fill: "#333", fontSize: 10 }}
                 />
-                <Bar dataKey="value" radius={[8, 8, 8, 8]}>
+                <Bar dataKey="value" radius={[6, 6, 6, 6]}>
                   {weekData.map((entry, index) => (
                     <Cell
                       key={index}
@@ -290,6 +281,7 @@ export default function TimeManagement() {
                     />
                   ))}
                 </Bar>
+
                 <defs>
                   <linearGradient
                     id="colorGradient"
@@ -308,59 +300,56 @@ export default function TimeManagement() {
         </div>
       </div>
 
-      {/* Floating Add Button */}
+      {/* Add Button */}
       <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-[#1560b7] text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-[#104889] transition-all hover:scale-110"
+        className="fixed bottom-5 right-5 bg-[#1560b7] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md hover:bg-[#104889] transition hover:scale-110"
       >
-        <Plus className="w-5 h-5 md:w-6 md:h-6" />
+        <Plus className="w-5 h-5" />
       </button>
 
-      {/* Add Task Modal */}
+      {/* Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-white rounded-[20px] p-6 md:p-[60px] max-w-[90%] md:max-w-[600px] mx-auto">
-          <div className="space-y-6 md:space-y-[40px]">
-            <p className="text-xl md:text-[32px] text-[#1560b7]">Add Task</p>
+        <DialogContent className="bg-white rounded-2xl p-5 md:p-8 max-w-[90%] md:max-w-[500px] mx-auto">
+          <p className="text-xl md:text-2xl text-[#1560b7] font-semibold mb-6">
+            Add Task
+          </p>
 
-            <div className="space-y-6 md:space-y-[59px]">
-              {/* Title Input */}
-              <div className="h-[56px] md:h-[64px] rounded-2xl border border-[#a3c9f5] flex items-center px-4">
-                <input
-                  type="text"
-                  placeholder="Task Title"
-                  value={newTaskTitle}
-                  onChange={(e) => setNewTaskTitle(e.target.value)}
-                  className="w-full text-[16px] text-[#104889] bg-transparent outline-none"
-                />
-              </div>
+          <div className="space-y-5">
+            <div className="h-12 md:h-14 rounded-xl border border-[#a3c9f5] flex items-center px-4">
+              <input
+                type="text"
+                placeholder="Task Title"
+                value={newTaskTitle}
+                onChange={(e) => setNewTaskTitle(e.target.value)}
+                className="w-full text-sm md:text-base text-[#104889] bg-transparent outline-none"
+              />
+            </div>
 
-              {/* Time Input */}
-              <div className="h-[56px] md:h-[64px] rounded-2xl border border-[#a3c9f5] flex items-center px-4">
-                <input
-                  type="time"
-                  value={newTaskTime}
-                  onChange={(e) => setNewTaskTime(e.target.value)}
-                  className="w-full text-[16px] text-[#104889] bg-transparent outline-none"
-                />
-                <Clock className="w-5 h-5 md:w-6 md:h-6 text-[#104889]" />
-              </div>
+            <div className="h-12 md:h-14 rounded-xl border border-[#a3c9f5] flex items-center px-4">
+              <input
+                type="time"
+                value={newTaskTime}
+                onChange={(e) => setNewTaskTime(e.target.value)}
+                className="w-full text-sm md:text-base text-[#104889] bg-transparent outline-none"
+              />
+              <Clock className="w-4 h-4 md:w-5 md:h-5 text-[#104889]" />
+            </div>
 
-              {/* Buttons */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[30px]">
-                <button
-                  onClick={handleCancel}
-                  className="bg-[#e8f2fc] text-[#1560b7] px-6 h-[56px] md:h-[70px] w-full md:w-[200px] rounded-2xl text-[16px] md:text-[18px] hover:bg-[#d2e5f9]"
-                >
-                  Cancel
-                </button>
+            <div className="flex flex-col md:flex-row gap-3">
+              <button
+                onClick={handleCancel}
+                className="bg-[#e8f2fc] text-[#1560b7] px-5 h-12 md:h-12 w-full rounded-xl text-sm md:text-base hover:bg-[#d2e5f9]"
+              >
+                Cancel
+              </button>
 
-                <button
-                  onClick={addTask}
-                  className="bg-[#1560b7] text-white px-6 h-[56px] md:h-[70px] w-full md:w-[200px] rounded-2xl text-[16px] md:text-[18px] hover:bg-[#104889] border border-[#a3c9f5]"
-                >
-                  Add Task
-                </button>
-              </div>
+              <button
+                onClick={addTask}
+                className="bg-[#1560b7] text-white px-5 h-12 md:h-14 w-full rounded-xl text-sm md:text-base hover:bg-[#104889]"
+              >
+                Add Task
+              </button>
             </div>
           </div>
         </DialogContent>

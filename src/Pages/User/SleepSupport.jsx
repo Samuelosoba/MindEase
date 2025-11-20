@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import svgPaths from "../../assets/svg-36j4gnjs86";
 import {
   Dialog,
@@ -7,9 +8,6 @@ import {
   DialogTitle,
 } from "../../Components/User/Dialog";
 import { Moon, BookOpen, Trees, User } from "lucide-react";
-// import TrackCard from "../../Components/User/TrackCard";
-
-/* ---------- Data (unchanged) ---------- */
 const tracks = [
   {
     id: 1,
@@ -58,6 +56,153 @@ const tracks = [
     image:
       "https://images.unsplash.com/photo-1762339157963-5209639d12af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpdGF0aW9uJTIwYmVsbCUyMHBlYWNlZnVsfGVufDF8fHx8MTc2MzM4Njg0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     audio: "https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3",
+  },
+  {
+    id: 7,
+    title: "Gentle Stream",
+    duration: "55:00",
+    image: "https://images.unsplash.com/photo-1519817914152-22a4f6116f81",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2326/2326-preview.mp3",
+  },
+  {
+    id: 8,
+    title: "Night Crickets",
+    duration: "50:00",
+    image: "https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2328/2328-preview.mp3",
+  },
+  {
+    id: 9,
+    title: "Soft Thunder",
+    duration: "65:00",
+    image: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2331/2331-preview.mp3",
+  },
+  {
+    id: 10,
+    title: "Wind Chimes",
+    duration: "30:00",
+    image: "https://images.unsplash.com/photo-1562183241-b937d1e80d76",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2461/2461-preview.mp3",
+  },
+  {
+    id: 11,
+    title: "Delta Waves",
+    duration: "90:00",
+    image: "https://images.unsplash.com/photo-1526715908961-46e1600f5b42",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2392/2392-preview.mp3",
+  },
+  {
+    id: 12,
+    title: "Deep Rest",
+    duration: "80:00",
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2376/2376-preview.mp3",
+  },
+  {
+    id: 13,
+    title: "Gentle Rain",
+    duration: "62:00",
+    image: "https://images.unsplash.com/photo-1502880704435-b44c09153a0e",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2332/2332-preview.mp3",
+  },
+  {
+    id: 14,
+    title: "Soft Focus",
+    duration: "45:00",
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2501/2501-preview.mp3",
+  },
+  {
+    id: 15,
+    title: "Concentration Flow",
+    duration: "50:00",
+    image: "https://images.unsplash.com/photo-1523287562758-66c7fc58967e",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2377/2377-preview.mp3",
+  },
+  {
+    id: 16,
+    title: "Study Ambience",
+    duration: "60:00",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2503/2503-preview.mp3",
+  },
+  {
+    id: 17,
+    title: "Coffee Shop",
+    duration: "55:00",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2329/2329-preview.mp3",
+  },
+  {
+    id: 18,
+    title: "Library Quiet",
+    duration: "40:00",
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2504/2504-preview.mp3",
+  },
+  {
+    id: 19,
+    title: "Mountain Wind",
+    duration: "57:00",
+    image: "https://images.unsplash.com/photo-1508261303786-7c7f24d54e8c",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2414/2414-preview.mp3",
+  },
+  {
+    id: 20,
+    title: "Jungle Morning",
+    duration: "55:00",
+    image: "https://images.unsplash.com/photo-1498579809087-ef1e558fd1da",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2325/2325-preview.mp3",
+  },
+  {
+    id: 21,
+    title: "Desert Night",
+    duration: "60:00",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2413/2413-preview.mp3",
+  },
+  {
+    id: 22,
+    title: "Arctic Silence",
+    duration: "70:00",
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2409/2409-preview.mp3",
+  },
+  {
+    id: 23,
+    title: "Autumn Leaves",
+    duration: "42:00",
+    image: "https://images.unsplash.com/photo-1445820135718-b73a1a5a5d54",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2374/2374-preview.mp3",
+  },
+  {
+    id: 24,
+    title: "Breathing Guide",
+    duration: "15:00",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2505/2505-preview.mp3",
+  },
+  {
+    id: 25,
+    title: "Mindful Moments",
+    duration: "18:00",
+    image: "https://images.unsplash.com/photo-1506127198231-96a93caa7b81",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2506/2506-preview.mp3",
+  },
+  {
+    id: 26,
+    title: "Zen Garden",
+    duration: "22:00",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2463/2463-preview.mp3",
+  },
+  {
+    id: 27,
+    title: "Morning Meditation",
+    duration: "25:00",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    audio: "https://assets.mixkit.co/active_storage/sfx/2507/2507-preview.mp3",
   },
 ];
 
@@ -328,19 +473,19 @@ export default function SleepSupport() {
         {/* Header */}
         <div className="w-full">
           <div className="text-black">
-            <p className="font-['Poppins:Medium',sans-serif] text-[28px] md:text-[32px] tracking-[-1.12px]">
+            <p className="font-['Poppins:Medium',sans-serif] text-xl md:text-2xl tracking-[-1.12px]">
               Sleep Support
             </p>
-            <p className="mt-1 text-[15px] md:text-[18px] text-[#333]">
+            <p className="mt-1 md:text-md text-[#333]">
               Wind down with calming sounds designed to help you rest
             </p>
           </div>
         </div>
 
         {/* Breathing Tip */}
-        <div className="bg-[#b5e3b7] w-full rounded-lg">
-          <div className="flex items-center p-4 md:p-6">
-            <div className="w-[70px] h-[70px] rounded-full overflow-hidden shrink-0">
+        <div className="bg-[#b5e3b7] w-full rounded-lg md:p-6">
+          <div className="md:flex items-center p-4 md:p-6 gap-4">
+            <div className="mx-auto mb-4 md:mb-0 w-[70px] h-[70px] rounded-full overflow-hidden shrink-0">
               <img
                 alt="Meditation"
                 className="w-full h-full object-cover"
@@ -348,8 +493,10 @@ export default function SleepSupport() {
               />
             </div>
             <div className="ml-4 flex flex-col justify-center">
-              <p className="text-[20px]">Breathing Tip</p>
-              <p className="text-[14px] md:text-[16px]">
+              <p className="text-[20px] text-center md:text-left">
+                Breathing Tip
+              </p>
+              <p className="text-[14px] text-center md:text-left md:text-[16px]">
                 Try breathing in for 4 seconds and out for 4 seconds. This
                 simple technique can help calm your nervous system and prepare
                 your body for rest
@@ -359,11 +506,11 @@ export default function SleepSupport() {
         </div>
 
         {/* Main Player */}
-        <div className="bg-white/100 w-full rounded-[20px]">
+        <div className="bg-white/90 border-2 border-gray-400/20 w-full rounded-[20px]">
           <div className="p-6 md:p-10 flex flex-col items-center">
             <div className="bg-[#e8f2fc] w-full rounded-lg p-4 md:p-6">
               <div className="flex flex-col items-center">
-                <p className="text-[#1560b7] text-[22px] md:text-[32px] font-['Poppins:Medium']">
+                <p className="text-[#1560b7] text-[22px] font-bold font-['Poppins:Medium']">
                   {currentTrack.title}
                 </p>
 
@@ -501,19 +648,19 @@ export default function SleepSupport() {
         {/* Recommended Sounds */}
         <div className="w-full">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-[20px] md:text-[24px] font-['Open_Sans:Regular']">
+            <p className="text-xl   font-['Open_Sans:Regular']">
               Recommended Sounds
             </p>
           </div>
 
           {/* Responsive Grid: 1 column on mobile, 2 on md, 3 on lg */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tracks.map((t) => (
+            {tracks.slice(0, 6).map((t) => (
               <TrackCard
                 key={t.id}
                 track={t}
                 isActive={currentTrack?.id === t.id}
-                onOpen={() => handleTrackSelect(t)}
+                onClick={() => handleTrackSelect(t)}
               />
             ))}
           </div>
@@ -616,17 +763,23 @@ export default function SleepSupport() {
 
 function TrackCard({ track, isActive, onClick }) {
   return (
-    <button
+    <motion.button
       onClick={onClick}
-      className={`w-full h-[300px] rounded-2xl transition-transform transform hover:scale-[1.02] cursor-pointer text-left focus:outline-none ${
-        isActive
-          ? "bg-[#d2e5f9] border-2 border-[#104889]"
-          : "bg-[#e8f2fc] border border-[#104889]"
-      }`}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.2 }}
+      className={`w-full h-60 sm:h-[260px] rounded-2xl cursor-pointer text-left
+        focus:outline-none overflow-hidden 
+        ${
+          isActive
+            ? "bg-[#d2e5f9] border-2 border-[#104889] shadow-md"
+            : "bg-[#e8f2fc] border border-[#104889] shadow-sm"
+        }`}
       aria-pressed={isActive}
     >
-      <div className="flex flex-col items-center justify-center h-full p-4">
-        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden">
+      <div className="flex flex-col items-center justify-center h-full p-3 sm:p-4">
+        {/* Image */}
+        <div className="w-20 h-20 sm:w-[90px] sm:h-[90px] rounded-xl overflow-hidden">
           <img
             alt={track.title}
             className="w-full h-full object-cover"
@@ -634,14 +787,18 @@ function TrackCard({ track, isActive, onClick }) {
           />
         </div>
 
-        <div className="mt-4 text-center text-[#1560b7]">
-          <p className="text-[18px] md:text-[24px]">{track.title}</p>
-          <p className="text-[14px] md:text-[16px] text-[#333]">
+        {/* Title + duration */}
+        <div className="mt-3 text-center text-[#1560b7]">
+          <p className="text-sm sm:text-base font-medium leading-tight">
+            {track.title}
+          </p>
+
+          <p className="text-xs sm:text-sm text-[#333] mt-1">
             {track.duration}
           </p>
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -658,9 +815,7 @@ function PlaylistCard({ playlist, onClick }) {
       </div>
 
       <div className="flex flex-col items-start">
-        <p className="text-[18px] md:text-[24px] text-[#0a305c]">
-          {playlist.title}
-        </p>
+        <p className=" text-[#0a305c]">{playlist.title}</p>
         <p className="text-[14px] text-[#0a305c]">
           {playlist.trackCount} Tracks
         </p>

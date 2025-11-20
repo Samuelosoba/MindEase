@@ -17,7 +17,7 @@ export default function SelectionPage() {
       image:
         "https://images.unsplash.com/photo-1756032433560-56547efed550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
       bg: "bg-gray-50",
-      route: "/stress-management",
+      route: "/user/stress-management",
     },
     {
       id: "time",
@@ -79,7 +79,7 @@ export default function SelectionPage() {
     <>
       <Nav />
 
-      <div className="bg-gray-50 flex flex-col min-h-screen md:min-h-[calc(100vh)] pt-[80px] overflow-x-hidden">
+      <div className="bg-gray-50 flex flex-col min-h-screen md:min-h-[calc(100vh)] pt-20 overflow-x-hidden">
         <div className="flex-1 flex flex-col items-center px-6">
           {/* Header */}
           <motion.div
@@ -88,7 +88,7 @@ export default function SelectionPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-8 max-w-2xl"
           >
-            <h2 className="text-[24px] md:text-[30px] font-semibold text-black mb-1 pt-12">
+            <h2 className="text-[24px] md:text-[30px] font-semibold text-black mb-1">
               What do you want to improve today?
             </h2>
             <p className="text-[16px] md:text-[20px] text-black">
