@@ -12,6 +12,7 @@ import AuthPage from "../Pages/Auth";
 
 import UserDashboard from "../Components/User/UserDashboard";
 import SelectionPage from "../Pages/User/SelectionPage";
+import ScrollToTop from "../Components/ScrollToTop";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -33,6 +34,7 @@ export default function AppRoute() {
   return (
     <div className="">
       <Router>
+        <ScrollToTop />
         <Routes className="">
           <Route
             path="/"

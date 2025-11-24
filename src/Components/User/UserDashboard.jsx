@@ -7,6 +7,7 @@ import Settings from "../../Pages/User/Settings";
 import SleepSupport from "../../Pages/User/SleepSupport";
 import TimeManagement from "../../Pages/User/TimeManagement";
 import StressManagement from "../../Pages/User/StressManagement";
+import { AcademicStressSolution } from "../../Pages/User/AcademicStressSolution";
 
 const UserDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +34,10 @@ const UserDashboard = () => {
           <Route path="/sleep-support" element={<SleepSupport />} />
           <Route path="/time-management" element={<TimeManagement />} />
           <Route path="/stress-management" element={<StressManagement />} />
+          <Route
+            path="/stress-management/academics"
+            element={<AcademicStressSolution />}
+          />
         </Routes>
       </div>
     </div>

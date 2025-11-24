@@ -130,7 +130,7 @@ export default function TimeManagement() {
   return (
     <div className="min-h-screen bg-[#f6fafe] flex flex-col">
       {/* Header */}
-      <div className="px-4 md:px-8 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <div className="px-4 md:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
           <h1 className="text-black text-lg md:text-xl font-medium">
             Time Management
@@ -179,7 +179,7 @@ export default function TimeManagement() {
                 >
                   <button
                     onClick={() => toggleTask(task.id)}
-                    className="w-9 h-9 md:w-10 md:h-10 rounded-lg border-2 border-[#1560b7] flex items-center justify-center hover:bg-[#1560b7] hover:text-white transition"
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-lg border-2 border-[#1560b7] flex items-center justify-center hover:bg-gray-300 hover:text-white transition"
                   >
                     {task.checked && (
                       <CheckCircle2 className="w-5 h-5 text-[#1560b7]" />
