@@ -13,6 +13,7 @@ import AuthPage from "../Pages/Auth";
 import UserDashboard from "../Components/User/UserDashboard";
 import SelectionPage from "../Pages/User/SelectionPage";
 import ScrollToTop from "../Components/ScrollToTop";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -44,10 +45,24 @@ export default function AppRoute() {
               </Layout>
             }
           />
-          <Route path="selection" element={<SelectionPage />} />
+          <Route
+            path="selection"
+            element={
+              <ProtectedRoute>
+                <SelectionPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="auth" element={<AuthPage />} />
           {/* User */}
-          <Route path="/user/*" element={<UserDashboard />} />
+          <Route
+            path="/user/*"
+            element={
+              <ProtectedRoute>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>

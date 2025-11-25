@@ -6,7 +6,7 @@ import Nav from "../Components/Nav";
 import { FcGoogle } from "react-icons/fc";
 import Logo from "../assets/MindEase.png";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../contexts/AuthProvider";
 
 const API_BASE = "https://mind-ease-backend-f68j.onrender.com/api/v1";
 
@@ -38,7 +38,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
-
+  const { login } = useAuth();
 
   const loginFormik = useFormik({
     initialValues: { email: "", password: "" },
@@ -54,14 +54,11 @@ export default function AuthPage() {
       try {
         const res = await axios.post(`${API_BASE}/auth/login`, values);
 
-        const { data } = res;
+        const { token, userDTO } = res.data;
 
-        if (data?.token) {
-          localStorage.setItem("auth_token", data.token);
-          navigate("/selection");
-        } else {
-          alert("Logged in (no token)");
-        }
+        login(token, userDTO); // ⬅ SAVE token + user globally
+
+        navigate("/selection");
       } catch (err) {
         setApiError(err?.response?.data?.message || err.message);
       } finally {

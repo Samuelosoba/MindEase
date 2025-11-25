@@ -12,10 +12,12 @@ import {
   ChevronRight,
   Settings,
 } from "lucide-react";
+import { useAuth } from "../../contexts/AuthProvider";
 
 export const Sidebar = ({ isOpen, setIsOpen }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/user" },
@@ -168,7 +170,7 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
                 isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
               }`}
             >
-              Johnson
+              {user.firstName}
             </span>
           </button>
         </div>
