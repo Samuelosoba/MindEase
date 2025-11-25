@@ -57,14 +57,14 @@ export default function StressManagement() {
           {/* Text */}
           <div className="text-center mb-6">
             <motion.h1
-              className="text-xl sm:text-2xl md:text-[28px] font-semibold text-black tracking-tight mb-1"
+              className="text-lg md:text-2xl  font-semibold text-black tracking-tight mb-1"
               {...fadeUp}
             >
               Let's Ease Your Academic Stress
             </motion.h1>
 
             <motion.p
-              className="text-xs sm:text-sm md:text-base text-black tracking-tight"
+              className=" text-black tracking-tight"
               {...fadeUp}
               transition={{ delay: 0.1 }}
             >

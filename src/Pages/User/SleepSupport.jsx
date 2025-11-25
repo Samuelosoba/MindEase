@@ -473,7 +473,7 @@ export default function SleepSupport() {
         {/* Header */}
         <div className="w-full">
           <div className="text-black">
-            <p className="ftext-black text-lg md:text-xl font-medium tracking-[-1.12px]">
+            <p className="ftext-black text-lg md:text-2xl font-medium tracking-[-1.12px]">
               Sleep Support
             </p>
             <p className="mt-1 md:text-md text-[#333]">

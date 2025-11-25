@@ -179,7 +179,7 @@ export default function TimeManagement() {
       {/* Header */}
       <div className="px-4 md:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
-          <h1 className="text-black text-lg md:text-xl font-medium">
+          <h1 className="text-black text-lg md:text-2xl font-medium">
             Time Management
           </h1>
           <p className="text-sm md:text-base text-black">{headerDate}</p>
@@ -214,7 +214,7 @@ export default function TimeManagement() {
 
         {/* Tasks */}
         <div className="bg-white rounded-xl border border-[#d2e5f9] p-4 md:p-6">
-          <h2 className="text-lg md:text-xl mb-4 font-medium">Today's Task</h2>
+          <h2 className="text-lg  mb-4 font-medium">Today's Task</h2>
 
           <div className="space-y-3 md:space-y-4">
             {tasks.map((task) => {

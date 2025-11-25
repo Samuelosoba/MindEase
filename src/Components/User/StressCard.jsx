@@ -46,7 +46,7 @@ export function StressCard({
         <div className="text-center sm:text-left">
           <h3
             className="
-              text-xl sm:text-2xl md:text-3xl 
+              text-xl  md:text-2xl 
               text-[#333333] mb-1 md:mb-2 tracking-tight
             "
           >
@@ -55,7 +55,7 @@ export function StressCard({
 
           <p
             className="
-              text-sm sm:text-base md:text-lg 
+             
               text-[#333333] tracking-tight leading-snug
             "
           >

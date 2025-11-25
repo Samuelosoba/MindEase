@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import axios from "axios";
+import api from "../../Utils/axios";
 
 export const AIChatbotPage = () => {
   const [input, setInput] = useState("");
@@ -39,7 +40,7 @@ export const AIChatbotPage = () => {
 
     try {
       // Replace with your backend AI route
-      const res = await axios.post("/api/chat", { message: text });
+      const res = await api.post("/chat-llm", { message: text });
 
       const reply = res.data.reply || "I’m here with you.";
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
