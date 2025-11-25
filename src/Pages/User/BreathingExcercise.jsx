@@ -87,7 +87,7 @@ export function BreathingExercises() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
                   <div
-                    className={`w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] ${exercise.iconBg} rounded-2xl flex items-center justify-center`}
+                    className={`w-20 h-20 sm:w-[100px] sm:h-[100px] ${exercise.iconBg} rounded-2xl flex items-center justify-center`}
                   >
                     <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-700" />
                   </div>
@@ -139,7 +139,7 @@ export function BreathingExercises() {
                 {/* Start Button */}
                 <button
                   onClick={() => setSelectedExercise(exercise.id)}
-                  className={`w-full h-16 sm:h-20 bg-gradient-to-r ${exercise.gradient} text-white rounded-lg border border-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
+                  className={`w-full h-16 sm:h-20 bg-linear-to-r ${exercise.gradient} text-white rounded-lg border border-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
                 >
                   <span className="text-sm sm:text-base">Start exercise</span>
                   <svg

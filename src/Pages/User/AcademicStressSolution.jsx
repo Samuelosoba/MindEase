@@ -101,7 +101,7 @@ export function AcademicStressSolution() {
       <div className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-16 pb-12 space-y-6">
         {/* Success Message */}
         <div className="bg-[#e8f2fc] rounded-2xl p-4 sm:p-6 flex items-start sm:items-center gap-4 sm:gap-8">
-          <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#43a047] flex-shrink-0" />
+          <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#43a047] shrink-0" />
           <div>
             <h2 className="text-xl sm:text-2xl text-[#333333] mb-2 tracking-tight">
               Here's Your Personalized Support
@@ -115,7 +115,7 @@ export function AcademicStressSolution() {
         {/* Calm Music Card */}
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
           <div className="flex flex-col gap-6 sm:gap-8">
-            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#1560b7] rounded-2xl flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-[100px] sm:h-[100px] bg-[#1560b7] rounded-2xl flex items-center justify-center">
               <Music className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
@@ -135,7 +135,7 @@ export function AcademicStressSolution() {
         {/* Breathing Exercise Card */}
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
           <div className="flex flex-col gap-6 sm:gap-8">
-            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#38943c] rounded-2xl flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-[100px] sm:h-[100px] bg-[#38943c] rounded-2xl flex items-center justify-center">
               <Heart className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
@@ -160,7 +160,7 @@ export function AcademicStressSolution() {
         {/* Guided Video Card */}
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
           <div className="flex flex-col gap-6 sm:gap-8">
-            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#9c19b3] rounded-2xl flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-[100px] sm:h-[100px] bg-[#9c19b3] rounded-2xl flex items-center justify-center">
               <Video className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">

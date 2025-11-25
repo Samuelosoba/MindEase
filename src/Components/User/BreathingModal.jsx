@@ -72,7 +72,7 @@ function FourSevenEightExercise() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
+    <div className="bg-linear-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
       <h2 className="text-3xl text-white mb-8">4-7-8 Breathing</h2>
 
       {phase === "ready" ? (
@@ -169,7 +169,7 @@ function BoxBreathingExercise() {
   const pos = getBoxPosition();
 
   return (
-    <div className="bg-gradient-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
+    <div className="bg-linear-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
       <h2 className="text-3xl text-white mb-8">Box Breathing</h2>
 
       {phase === "ready" ? (
@@ -262,7 +262,7 @@ function DeepBellyExercise() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
+    <div className="bg-linear-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
       <h2 className="text-3xl text-white mb-8">Deep Belly Breathing</h2>
 
       {phase === "ready" ? (
@@ -303,9 +303,7 @@ function DeepBellyExercise() {
   );
 }
 
-/* ===========================================================
-  ALTERNATE NOSTRILS BREATHING
-=========================================================== */
+/* ALTERNATE NOSTRILS BREATHING */
 function AlternateNostrilsExercise() {
   const [phase, setPhase] = useState("ready");
   const [count, setCount] = useState(0);
@@ -368,7 +366,7 @@ function AlternateNostrilsExercise() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
+    <div className="bg-linear-to-br from-[#1a78e5] to-[#63cf80] p-12 min-h-[500px] flex flex-col items-center justify-center">
       <h2 className="text-3xl text-white mb-8">Alternate Nostrils Breathing</h2>
 
       {phase === "ready" ? (
