@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bell, Plus, CheckCircle2, Clock } from "lucide-react";
 import {
   PieChart,
@@ -10,43 +10,61 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Dialog, DialogContent } from "../../Components/User/Dialog";
+import api from "../../Utils/axios"; // Make sure you have created this axios instance
 
 export default function TimeManagement() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Complete Math Assignments",
-      time: "8:00",
-      status: "completed",
-      checked: true,
-    },
-    {
-      id: 2,
-      title: "Study For Test",
-      time: "12:00",
-      status: "ongoing",
-      checked: false,
-    },
-    {
-      id: 3,
-      title: "Take a rest",
-      time: "2:00",
-      status: "pending",
-      checked: false,
-    },
-    {
-      id: 4,
-      title: "Go for rehearsal",
-      time: "4:50",
-      status: "pending",
-      checked: false,
-    },
-  ]);
-
+  const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskTime, setNewTaskTime] = useState("");
 
+  // At the top of the component
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  // For displaying the header date dynamically
+  const headerDate = selectedDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  // Fetch tasks only for the selected date
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await api.get("/reminders");
+
+        const mappedTasks = res.data
+          .filter((task) => {
+            const taskDate = new Date(task.dueDateTime);
+            return (
+              taskDate.getFullYear() === selectedDate.getFullYear() &&
+              taskDate.getMonth() === selectedDate.getMonth() &&
+              taskDate.getDate() === selectedDate.getDate()
+            );
+          })
+          .map((task) => ({
+            id: task.id,
+            title: task.notes,
+            time: new Date(task.dueDateTime).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            status: task.sent ? "completed" : "pending",
+            checked: task.sent,
+          }));
+
+        setTasks(mappedTasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [selectedDate]);
+
+  // Toggle task completion locally (update backend if needed)
   const toggleTask = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -54,32 +72,51 @@ export default function TimeManagement() {
           ? {
               ...task,
               checked: !task.checked,
-              status: !task.checked
-                ? "completed"
-                : task.id === 2
-                ? "ongoing"
-                : "pending",
+              status: !task.checked ? "completed" : "pending",
             }
           : task
       )
     );
   };
 
-  const addTask = () => {
+  // Add task and post to backend
+  const addTask = async () => {
     if (newTaskTitle.trim() && newTaskTime.trim()) {
-      setTasks([
-        ...tasks,
-        {
-          id: tasks.length + 1,
-          title: newTaskTitle,
-          time: newTaskTime,
-          status: "pending",
-          checked: false,
-        },
-      ]);
-      setNewTaskTitle("");
-      setNewTaskTime("");
-      setIsModalOpen(false);
+      try {
+        // Convert time to full ISO string
+        const today = new Date();
+        const [hours, minutes] = newTaskTime.split(":");
+        const dueDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate(),
+          parseInt(hours),
+          parseInt(minutes)
+        );
+
+        const res = await api.post("/set-reminder", {
+          notes: newTaskTitle,
+          setDateTime: new Date().toISOString(), // current time
+          dueDateTime: dueDate.toISOString(), // full ISO string with time
+        });
+
+        setTasks([
+          ...tasks,
+          {
+            id: res.data.id,
+            title: res.data.notes,
+            time: newTaskTime,
+            status: "pending",
+            checked: false,
+          },
+        ]);
+
+        setNewTaskTitle("");
+        setNewTaskTime("");
+        setIsModalOpen(false);
+      } catch (error) {
+        console.error("Error creating task:", error);
+      }
     }
   };
 
@@ -91,9 +128,9 @@ export default function TimeManagement() {
 
   const completedCount = tasks.filter((t) => t.checked).length;
   const remainingCount = tasks.length - completedCount;
-  const completionPercentage = Math.round(
-    (completedCount / tasks.length) * 100
-  );
+  const completionPercentage = tasks.length
+    ? Math.round((completedCount / tasks.length) * 100)
+    : 0;
 
   const pieData = [
     { name: "Completed", value: completionPercentage },
@@ -104,7 +141,7 @@ export default function TimeManagement() {
     { day: "Mon", value: 85 },
     { day: "Tue", value: 75 },
     { day: "Wed", value: 80 },
-    { day: "Thur", value: 70 },
+    { day: "Thu", value: 70 },
     { day: "Fri", value: 25 },
     { day: "Sat", value: 20 },
     { day: "Sun", value: 15 },
@@ -127,6 +164,16 @@ export default function TimeManagement() {
     }
   };
 
+  // Send email reminders
+  const sendEmailReminders = async () => {
+    try {
+      await api.post("/send-reminders"); // Backend should handle sending emails
+      alert("Email reminders sent!");
+    } catch (error) {
+      console.error("Error sending email reminders:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f6fafe] flex flex-col">
       {/* Header */}
@@ -135,12 +182,13 @@ export default function TimeManagement() {
           <h1 className="text-black text-lg md:text-xl font-medium">
             Time Management
           </h1>
-          <p className="text-sm md:text-base text-black">
-            Monday, November 3, 2025
-          </p>
+          <p className="text-sm md:text-base text-black">{headerDate}</p>
         </div>
 
-        <button className="bg-[#1560b7] text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl flex items-center gap-2 hover:bg-[#104889] transition">
+        <button
+          className="bg-[#1560b7] text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl flex items-center gap-2 hover:bg-[#104889] transition"
+          onClick={sendEmailReminders}
+        >
           <Bell className="w-4 h-4 md:w-5 md:h-5" />
           <span className="text-xs md:text-sm">Email Reminders</span>
         </button>
@@ -156,7 +204,6 @@ export default function TimeManagement() {
               className="w-full h-full object-cover"
             />
           </div>
-
           <div className="text-[#05182e]">
             <p className="text-base md:text-lg font-medium">
               One task at a time, you're doing great!
@@ -300,7 +347,7 @@ export default function TimeManagement() {
         </div>
       </div>
 
-      {/* Add Button */}
+      {/* Add Task Button */}
       <button
         onClick={() => setIsModalOpen(true)}
         className="fixed bottom-5 right-5 bg-[#1560b7] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md hover:bg-[#104889] transition hover:scale-110"
