@@ -125,7 +125,12 @@ export function AcademicStressSolution() {
               <p className="text-base sm:text-lg text-[#333333] tracking-tight">
                 Focus and calm study mix
               </p>
-              <button className="w-full h-[60px] sm:h-20 bg-[#1560b7] text-white rounded-lg border border-white hover:bg-[#124d94] transition-colors">
+              <button
+                className="w-full h-[60px] sm:h-20 bg-[#1560b7] text-white rounded-lg border border-white hover:bg-[#124d94] transition-colors"
+                onClick={() => {
+                  navigate("/user/sleep-support");
+                }}
+              >
                 Listen Now
               </button>
             </div>
@@ -190,7 +195,12 @@ export function AcademicStressSolution() {
             </div>
 
             <div className="space-y-3">
-              <button className="w-full h-[60px] sm:h-20 bg-[#1a78e5] text-white rounded-lg border border-white hover:bg-[#1560b7] transition-colors">
+              <button
+                className="w-full h-[60px] sm:h-20 bg-[#1a78e5] text-white rounded-lg border border-white hover:bg-[#1560b7] transition-colors"
+                onClick={() => {
+                  navigate("/user/assistant");
+                }}
+              >
                 Chat with an AI Assistant
               </button>
               <button className="w-full h-[60px] sm:h-20 bg-[#46b94b] text-white rounded-lg border border-white hover:bg-[#38943c] transition-colors">
