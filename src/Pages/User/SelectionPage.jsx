@@ -79,7 +79,7 @@ export default function SelectionPage() {
     <>
       <Nav />
 
-      <div className="bg-gray-50 flex flex-col min-h-screen md:min-h-[calc(100vh)] pt-20 overflow-x-hidden">
+      <div className="bg-gray-50 flex flex-col min-h-screen md:min-h-[calc(100vh)] pt-20 md:pt-30 overflow-x-hidden">
         <div className="flex-1 flex flex-col items-center px-6">
           {/* Header */}
           <motion.div
