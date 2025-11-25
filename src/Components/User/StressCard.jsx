@@ -7,10 +7,14 @@ export function StressCard({
   route,
   navigate,
   index,
+  onSelect,
 }) {
   return (
     <motion.div
-      onClick={() => navigate(route)}
+      onClick={() => {
+        if (onSelect) onSelect(); // <-- callback to parent
+        navigate(route);
+      }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{

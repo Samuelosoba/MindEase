@@ -823,3 +823,4 @@ function PlaylistCard({ playlist, onClick }) {
     </button>
   );
 }
+

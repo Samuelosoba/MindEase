@@ -8,6 +8,7 @@ import SleepSupport from "../../Pages/User/SleepSupport";
 import TimeManagement from "../../Pages/User/TimeManagement";
 import StressManagement from "../../Pages/User/StressManagement";
 import { AcademicStressSolution } from "../../Pages/User/AcademicStressSolution";
+import { BreathingExercises } from "../../Pages/User/BreathingExcercise";
 
 const UserDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,10 @@ const UserDashboard = () => {
           <Route
             path="/stress-management/academics"
             element={<AcademicStressSolution />}
+          />
+          <Route
+            path="/stress-management/breathing"
+            element={<BreathingExercises />}
           />
         </Routes>
       </div>

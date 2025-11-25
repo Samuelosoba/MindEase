@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { StressCard } from "../../Components/User/StressCard";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
 
 const stressCategories = [
   {
@@ -40,94 +46,132 @@ export default function StressManagement() {
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50">
       {/* Header Section */}
-      <div className="bg-white px-4 sm:px-8 md:px-16 pt-10 pb-6">
-        <div className="max-w-4xl mx-auto">
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={fadeUp}
+        transition={{ duration: 0.5 }}
+        className="bg-white px-4 sm:px-8 md:px-16 pt-10 pb-6"
+      >
+        <div className="">
           {/* Text */}
           <div className="text-center mb-6">
-            <h1 className="text-2xl sm:text-3xl md:text-[32px] font-semibold text-black tracking-tight mb-1">
+            <motion.h1
+              className="text-xl sm:text-2xl md:text-[28px] font-semibold text-black tracking-tight mb-1"
+              {...fadeUp}
+            >
               Let's Ease Your Academic Stress
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg text-black tracking-tight">
+            </motion.h1>
+
+            <motion.p
+              className="text-xs sm:text-sm md:text-base text-black tracking-tight"
+              {...fadeUp}
+              transition={{ delay: 0.1 }}
+            >
               You're not alone. We're here to help you find calm and clarity.
-            </p>
+            </motion.p>
           </div>
 
           {/* Image */}
-          <div className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[160px] sm:h-[180px] md:h-[222px]">
+          <motion.div
+            {...fadeUp}
+            transition={{ delay: 0.2 }}
+            className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[150px] sm:h-[170px] md:h-[210px]"
+          >
             <img
               src="https://images.unsplash.com/photo-1585521551422-497df464aa43?crop=entropy&cs=tinysrgb&fit=max&q=80&w=1080"
               alt="Stack of colorful books"
-              className="h-[130px] sm:h-[160px] md:h-[200px] w-auto object-contain"
+              className="h-[120px] sm:h-[150px] md:h-[190px] w-auto object-contain"
             />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Toggle Buttons */}
       <div className="flex justify-center gap-4 sm:gap-6 md:gap-8 py-6">
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveTab("identify")}
           className={`
-            w-[130px] sm:w-[165px] md:w-[200px]
-            h-[50px] sm:h-[60px] md:h-[70px]
-            rounded-2xl text-sm sm:text-base md:text-lg
-            transition-colors
+            w-[120px] sm:w-[150px] md:w-[180px]
+            h-[45px] sm:h-[55px] md:h-[65px]
+            rounded-2xl text-xs sm:text-sm md:text-base
+            transition-all border
             ${
               activeTab === "identify"
-                ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
-                : "bg-[#e8f2fc] text-[#1560b7]"
+                ? "bg-[#1560b7] text-white border-[#a3c9f5]"
+                : "bg-[#e8f2fc] text-[#1560b7] border-transparent"
             }
           `}
         >
           Identify
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveTab("solution")}
           className={`
-            w-[130px] sm:w-[165px] md:w-[200px]
-            h-[50px] sm:h-[60px] md:h-[70px]
-            rounded-2xl text-sm sm:text-base md:text-lg
-            transition-colors
+            w-[120px] sm:w-[150px] md:w-[180px]
+            h-[45px] sm:h-[55px] md:h-[65px]
+            rounded-2xl text-xs sm:text-sm md:text-base
+            transition-all border
             ${
               activeTab === "solution"
-                ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
-                : "bg-[#e8f2fc] text-[#1560b7]"
+                ? "bg-[#1560b7] text-white border-[#a3c9f5]"
+                : "bg-[#e8f2fc] text-[#1560b7] border-transparent"
             }
           `}
         >
           Solution
-        </button>
+        </motion.button>
       </div>
 
       {/* Section Title */}
-      <div className="text-center mb-6 px-4">
-        <h2 className="text-2xl sm:text-[28px] md:text-[32px] text-black tracking-tight">
-          What's on your mind today?
-        </h2>
-      </div>
+      <motion.h2
+        {...fadeUp}
+        transition={{ delay: 0.1 }}
+        className="text-center mb-6 px-4 text-lg sm:text-xl md:text-2xl text-black tracking-tight"
+      >
+        What's on your mind today?
+      </motion.h2>
 
       {/* Stress Cards */}
       <div className="max-w-3xl mx-auto px-4 sm:px-12 md:px-16 pb-12 space-y-5 sm:space-y-6">
         {stressCategories.map((category, index) => (
-          <StressCard
+          <motion.div
             key={index}
-            title={category.title}
-            description={category.description}
-            image={category.image}
-            route={category.route}
-            navigate={navigate}
-          />
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <StressCard
+              title={category.title}
+              description={category.description}
+              image={category.image}
+              route={category.route}
+              navigate={navigate}
+              onSelect={() => {
+                const autoSwitch = ["Exam Pressure", "Academic Performance"];
+                if (autoSwitch.includes(category.title)) {
+                  setActiveTab("solution");
+                }
+              }}
+            />
+          </motion.div>
         ))}
       </div>
 
       {/* Footer Message */}
-      <div className="text-center pb-10 sm:pb-12 px-4 sm:px-12 md:px-16">
-        <p className="text-sm sm:text-base md:text-lg text-black tracking-tight">
+      <motion.div
+        {...fadeUp}
+        transition={{ delay: 0.2 }}
+        className="text-center pb-10 sm:pb-12 px-4 sm:px-12 md:px-16"
+      >
+        <p className="text-xs sm:text-sm md:text-base text-black tracking-tight">
           Remember: It's okay to not be okay. We're here for you, every step of
           the way. 💙
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

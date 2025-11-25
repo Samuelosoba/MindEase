@@ -1,7 +1,6 @@
+import { ArrowLeft, CheckCircle2, Heart, Music, Video } from "lucide-react";
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router";
-import { Music, Heart, Video, ArrowLeft, CheckCircle2 } from "lucide-react";
-
+import { useLocation, useNavigate } from "react-router-dom";
 const solutions = {
   "exam-pressure": {
     title: "Exam Pressure",
@@ -36,91 +35,97 @@ export function AcademicStressSolution() {
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50">
       {/* Header Section */}
-      <div className="bg-white px-16 pt-8 pb-6">
-        <div className="max-w-3xl mx-auto">
+      <div className="bg-white px-4 sm:px-8 md:px-12 lg:px-16 pt-6 pb-6">
+        <div className="">
           <div className="text-center mb-6">
-            <h1 className="text-[32px] text-black tracking-tight mb-1">
+            <h1 className="text-2xl sm:text-3xl lg:text-[32px] text-black tracking-tight mb-1">
               Let's Ease Your Academic Stress
             </h1>
-            <p className="text-lg text-black tracking-tight">
+            <p className="text-base sm:text-lg text-black tracking-tight">
               You're not alone. We're here to help you find calm and clarity.
             </p>
           </div>
 
           {/* Image */}
-          <div className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[222px]">
+          <div className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[180px] sm:h-[200px] md:h-[220px]">
             <img
               src={solution.image}
               alt={solution.title}
-              className="h-[200px] w-auto object-contain"
+              className="h-full w-auto object-contain"
             />
           </div>
         </div>
       </div>
 
       {/* Toggle Buttons */}
-      <div className="flex justify-center gap-8 py-8">
+      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 py-6">
         <button
           onClick={() => setActiveTab("identify")}
-          className={`w-[200px] h-[70px] rounded-2xl transition-colors ${
+          className={`w-full sm:w-[180px] h-[60px] sm:h-[70px] rounded-2xl transition-colors ${
             activeTab === "identify"
               ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
               : "bg-[#e8f2fc] text-[#1560b7]"
           }`}
         >
-          <span className="text-lg">Identify</span>
+          <span
+            className="text-base sm:text-lg"
+            onClick={() => navigate("/user/stress-management")}
+          >
+            Identify
+          </span>
         </button>
+
         <button
           onClick={() => setActiveTab("solution")}
-          className={`w-[200px] h-[70px] rounded-2xl transition-colors ${
+          className={`w-full sm:w-[180px] h-[60px] sm:h-[70px] rounded-2xl transition-colors ${
             activeTab === "solution"
               ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
               : "bg-[#e8f2fc] text-[#1560b7]"
           }`}
         >
-          <span className="text-lg">Solution</span>
+          <span className="text-base sm:text-lg">Solution</span>
         </button>
       </div>
 
       {/* Back Button */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-6">
         <button
-          onClick={() => navigate("/")}
-          className="bg-[#1560b7] text-white w-[200px] h-[70px] rounded-2xl flex items-center justify-center gap-3 hover:bg-[#124d94] transition-colors"
+          onClick={() => navigate("/user/stress-management")}
+          className="bg-[#1560b7] text-white w-full sm:w-[200px] h-[60px] sm:h-[70px] rounded-2xl flex items-center justify-center gap-3 hover:bg-[#124d94] transition-colors"
         >
-          <ArrowLeft className="w-6 h-6" />
-          <span className="text-lg">Back</span>
+          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          <span className="text-base sm:text-lg">Back</span>
         </button>
       </div>
 
-      <div className="max-w-3xl mx-auto px-16 pb-12 space-y-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-16 pb-12 space-y-6">
         {/* Success Message */}
-        <div className="bg-[#e8f2fc] rounded-2xl p-6 flex items-center gap-8">
-          <CheckCircle2 className="w-12 h-12 text-[#43a047] flex-shrink-0" />
+        <div className="bg-[#e8f2fc] rounded-2xl p-4 sm:p-6 flex items-start sm:items-center gap-4 sm:gap-8">
+          <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#43a047] flex-shrink-0" />
           <div>
-            <h2 className="text-2xl text-[#333333] mb-2 tracking-tight">
+            <h2 className="text-xl sm:text-2xl text-[#333333] mb-2 tracking-tight">
               Here's Your Personalized Support
             </h2>
-            <p className="text-lg text-[#333333] tracking-tight">
+            <p className="text-base sm:text-lg text-[#333333] tracking-tight">
               We've curated these resources just for you
             </p>
           </div>
         </div>
 
         {/* Calm Music Card */}
-        <div className="bg-white rounded-2xl p-6 border border-[#d2e5f9]">
-          <div className="flex flex-col gap-8">
-            <div className="w-[100px] h-[100px] bg-[#1560b7] rounded-2xl flex items-center justify-center">
-              <Music className="w-12 h-12 text-white" />
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
+          <div className="flex flex-col gap-6 sm:gap-8">
+            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#1560b7] rounded-2xl flex items-center justify-center">
+              <Music className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl text-[#333333] tracking-tight">
+              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
                 Calm Music
               </h3>
-              <p className="text-lg text-[#333333] tracking-tight">
+              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
                 Focus and calm study mix
               </p>
-              <button className="w-full h-20 bg-[#1560b7] text-white rounded-lg border border-white hover:bg-[#124d94] transition-colors">
+              <button className="w-full h-[60px] sm:h-20 bg-[#1560b7] text-white rounded-lg border border-white hover:bg-[#124d94] transition-colors">
                 Listen Now
               </button>
             </div>
@@ -128,19 +133,24 @@ export function AcademicStressSolution() {
         </div>
 
         {/* Breathing Exercise Card */}
-        <div className="bg-white rounded-2xl p-6 border border-[#d2e5f9]">
-          <div className="flex flex-col gap-8">
-            <div className="w-[100px] h-[100px] bg-[#38943c] rounded-2xl flex items-center justify-center">
-              <Heart className="w-12 h-12 text-white" />
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
+          <div className="flex flex-col gap-6 sm:gap-8">
+            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#38943c] rounded-2xl flex items-center justify-center">
+              <Heart className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl text-[#333333] tracking-tight">
+              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
                 Breathing Exercise
               </h3>
-              <p className="text-lg text-[#333333] tracking-tight">
+              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
                 4-7-8 Breathing
               </p>
-              <button className="w-full h-20 bg-[#38943c] text-white rounded-lg border border-white hover:bg-[#2d7530] transition-colors">
+              <button
+                className="w-full h-[60px] sm:h-20 bg-[#38943c] text-white rounded-lg border border-white hover:bg-[#2d7530] transition-colors"
+                onClick={() => {
+                  navigate("/user/stress-management/breathing");
+                }}
+              >
                 Start Exercise
               </button>
             </div>
@@ -148,42 +158,42 @@ export function AcademicStressSolution() {
         </div>
 
         {/* Guided Video Card */}
-        <div className="bg-white rounded-2xl p-6 border border-[#d2e5f9]">
-          <div className="flex flex-col gap-8">
-            <div className="w-[100px] h-[100px] bg-[#9c19b3] rounded-2xl flex items-center justify-center">
-              <Video className="w-12 h-12 text-white" />
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
+          <div className="flex flex-col gap-6 sm:gap-8">
+            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] bg-[#9c19b3] rounded-2xl flex items-center justify-center">
+              <Video className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl text-[#333333] tracking-tight">
+              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
                 Guided Video
               </h3>
-              <p className="text-lg text-[#333333] tracking-tight">
+              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
                 Exam Anxiety Relief
               </p>
-              <button className="w-full h-20 bg-[#9c19b3] text-white rounded-lg border border-white hover:bg-[#7d1490] transition-colors">
-                Watch video
+              <button className="w-full h-[60px] sm:h-20 bg-[#9c19b3] text-white rounded-lg border border-white hover:bg-[#7d1490] transition-colors">
+                Watch Video
               </button>
             </div>
           </div>
         </div>
 
         {/* Need More Support Card */}
-        <div className="bg-white rounded-2xl p-6 border border-[#d2e5f9]">
-          <div className="space-y-8">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
+          <div className="space-y-6 sm:space-y-8">
             <div className="text-center">
-              <h3 className="text-2xl text-[#333333] mb-2 tracking-tight">
+              <h3 className="text-xl sm:text-2xl text-[#333333] mb-2 tracking-tight">
                 Need More Support?
               </h3>
-              <p className="text-lg text-[#333333] tracking-tight">
-                Connect with our AI assistant or reach out to our trusted
-                partners
+              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
+                Connect with our AI assistant or reach out to our partners
               </p>
             </div>
-            <div className="space-y-2">
-              <button className="w-full h-20 bg-[#1a78e5] text-white rounded-lg border border-white hover:bg-[#1560b7] transition-colors">
+
+            <div className="space-y-3">
+              <button className="w-full h-[60px] sm:h-20 bg-[#1a78e5] text-white rounded-lg border border-white hover:bg-[#1560b7] transition-colors">
                 Chat with an AI Assistant
               </button>
-              <button className="w-full h-20 bg-[#46b94b] text-white rounded-lg border border-white hover:bg-[#38943c] transition-colors">
+              <button className="w-full h-[60px] sm:h-20 bg-[#46b94b] text-white rounded-lg border border-white hover:bg-[#38943c] transition-colors">
                 Connect with an NGO Partner
               </button>
             </div>
@@ -192,9 +202,9 @@ export function AcademicStressSolution() {
       </div>
 
       {/* Footer Message */}
-      <div className="text-center pb-12 px-16">
-        <p className="text-lg text-black tracking-tight">
-          Remember: It's okay to not be okay. We're here for you, every step of
+      <div className="text-center pb-10 px-4 sm:px-16">
+        <p className="text-base sm:text-lg text-black tracking-tight">
+          Remember: It's okay to not be okay. We're here for you every step of
           the way. 💙
         </p>
       </div>
