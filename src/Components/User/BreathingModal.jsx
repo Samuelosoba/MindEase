@@ -7,7 +7,7 @@ export function BreathingModal({ exercise, onClose }) {
 
   return (
     <Dialog open={!!exercise} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden">
+      <DialogContent className="max-w-2xl  p-0 overflow-hidden">
         <div className="relative">
           <button
             onClick={onClose}

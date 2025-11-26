@@ -9,6 +9,7 @@ import TimeManagement from "../../Pages/User/TimeManagement";
 import StressManagement from "../../Pages/User/StressManagement";
 import { AcademicStressSolution } from "../../Pages/User/AcademicStressSolution";
 import { BreathingExercises } from "../../Pages/User/BreathingExcercise";
+import { VideoLibrary } from "../../Pages/User/VideoLibrary";
 
 const UserDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +44,7 @@ const UserDashboard = () => {
             path="/stress-management/breathing"
             element={<BreathingExercises />}
           />
+          <Route path="/stress-management/videos" element={<VideoLibrary />} />
         </Routes>
       </div>
     </div>

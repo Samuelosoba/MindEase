@@ -1,6 +1,11 @@
 import { ArrowLeft, CheckCircle2, Heart, Music, Video } from "lucide-react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
 const solutions = {
   "exam-pressure": {
     title: "Exam Pressure",
@@ -38,57 +43,76 @@ export function AcademicStressSolution() {
       <div className="bg-white px-4 sm:px-8 md:px-12 lg:px-16 pt-6 pb-6">
         <div className="">
           <div className="text-center mb-6">
-            <h1 className="text-2xl sm:text-3xl lg:text-[32px] text-black tracking-tight mb-1">
+            <h1 className="text-lg md:text-2xl  font-semibold text-black tracking-tight mb-1">
               Let's Ease Your Academic Stress
             </h1>
-            <p className="text-base sm:text-lg text-black tracking-tight">
+            <p className=" text-black tracking-tight">
               You're not alone. We're here to help you find calm and clarity.
             </p>
           </div>
 
           {/* Image */}
-          <div className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[180px] sm:h-[200px] md:h-[220px]">
+          <motion.div
+            {...fadeUp}
+            transition={{ delay: 0.2 }}
+            className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[150px] sm:h-[170px] md:h-[210px]"
+          >
             <img
-              src={solution.image}
-              alt={solution.title}
-              className="h-full w-auto object-contain"
+              src="https://images.unsplash.com/photo-1585521551422-497df464aa43?crop=entropy&cs=tinysrgb&fit=max&q=80&w=1080"
+              alt="Stack of colorful books"
+              className="h-[120px] sm:h-[150px] md:h-[190px] w-auto object-contain"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Toggle Buttons */}
-      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 py-6">
-        <button
-          onClick={() => setActiveTab("identify")}
-          className={`w-full sm:w-[180px] h-[60px] sm:h-[70px] rounded-2xl transition-colors ${
-            activeTab === "identify"
-              ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
-              : "bg-[#e8f2fc] text-[#1560b7]"
-          }`}
+      <div className="flex justify-center gap-4 sm:gap-6 md:gap-8 py-6">
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setActiveTab("identify");
+            navigate("/user/stress-management");
+          }}
+          className={`
+            w-[120px] sm:w-[150px] md:w-[180px]
+            h-[45px] sm:h-[55px] md:h-[65px]
+            rounded-2xl text-xs sm:text-sm md:text-base
+            transition-all border
+            ${
+              activeTab === "identify"
+                ? "bg-[#1560b7] text-white border-[#a3c9f5]"
+                : "bg-[#e8f2fc] text-[#1560b7] border-transparent"
+            }
+          `}
         >
-          <span
-            className="text-base sm:text-lg"
-            onClick={() => navigate("/user/stress-management")}
-          >
-            Identify
-          </span>
-        </button>
+          Identify
+        </motion.button>
 
-        <button
-          onClick={() => setActiveTab("solution")}
-          className={`w-full sm:w-[180px] h-[60px] sm:h-[70px] rounded-2xl transition-colors ${
-            activeTab === "solution"
-              ? "bg-[#1560b7] text-white border border-[#a3c9f5]"
-              : "bg-[#e8f2fc] text-[#1560b7]"
-          }`}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setActiveTab("solution");
+            navigate("/user/stress-management/academics");
+          }}
+          className={`
+            w-[120px] sm:w-[150px] md:w-[180px]
+            h-[45px] sm:h-[55px] md:h-[65px]
+            rounded-2xl text-xs sm:text-sm md:text-base
+            transition-all border
+            ${
+              activeTab === "solution"
+                ? "bg-[#1560b7] text-white border-[#a3c9f5]"
+                : "bg-[#e8f2fc] text-[#1560b7] border-transparent"
+            }
+          `}
         >
-          <span className="text-base sm:text-lg">Solution</span>
-        </button>
+          Solution
+        </motion.button>
       </div>
 
       {/* Back Button */}
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <button
           onClick={() => navigate("/user/stress-management")}
           className="bg-[#1560b7] text-white w-full sm:w-[200px] h-[60px] sm:h-[70px] rounded-2xl flex items-center justify-center gap-3 hover:bg-[#124d94] transition-colors"
@@ -96,17 +120,17 @@ export function AcademicStressSolution() {
           <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           <span className="text-base sm:text-lg">Back</span>
         </button>
-      </div>
+      </div> */}
 
       <div className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-16 pb-12 space-y-6">
         {/* Success Message */}
         <div className="bg-[#e8f2fc] rounded-2xl p-4 sm:p-6 flex items-start sm:items-center gap-4 sm:gap-8">
           <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#43a047] shrink-0" />
           <div>
-            <h2 className="text-xl sm:text-2xl text-[#333333] mb-2 tracking-tight">
+            <h2 className="md:text-xl text-[#333333] mb-2 tracking-tight">
               Here's Your Personalized Support
             </h2>
-            <p className="text-base sm:text-lg text-[#333333] tracking-tight">
+            <p className=" text-[#333333] tracking-tight">
               We've curated these resources just for you
             </p>
           </div>
@@ -119,10 +143,10 @@ export function AcademicStressSolution() {
               <Music className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
+              <h3 className="md:text-xl text-lg text-[#333333] tracking-tight">
                 Calm Music
               </h3>
-              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
+              <p className="text-[#333333] tracking-tight">
                 Focus and calm study mix
               </p>
               <button
@@ -144,12 +168,10 @@ export function AcademicStressSolution() {
               <Heart className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
+              <h3 className="md:text-xl text-lg text-[#333333] tracking-tight">
                 Breathing Exercise
               </h3>
-              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
-                4-7-8 Breathing
-              </p>
+              <p className=" text-[#333333] tracking-tight">4-7-8 Breathing</p>
               <button
                 className="w-full h-[60px] sm:h-20 bg-[#38943c] text-white rounded-lg border border-white hover:bg-[#2d7530] transition-colors"
                 onClick={() => {
@@ -169,13 +191,16 @@ export function AcademicStressSolution() {
               <Video className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl text-[#333333] tracking-tight">
+              <h3 className="md:text-xl text-lg text-[#333333] tracking-tight">
                 Guided Video
               </h3>
-              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
+              <p className=" text-[#333333] tracking-tight">
                 Exam Anxiety Relief
               </p>
-              <button className="w-full h-[60px] sm:h-20 bg-[#9c19b3] text-white rounded-lg border border-white hover:bg-[#7d1490] transition-colors">
+              <button
+                className="w-full h-[60px] sm:h-20 bg-[#9c19b3] text-white rounded-lg border border-white hover:bg-[#7d1490] transition-colors"
+                onClick={() => navigate("/user/stress-management/videos")}
+              >
                 Watch Video
               </button>
             </div>
@@ -186,10 +211,10 @@ export function AcademicStressSolution() {
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#d2e5f9]">
           <div className="space-y-6 sm:space-y-8">
             <div className="text-center">
-              <h3 className="text-xl sm:text-2xl text-[#333333] mb-2 tracking-tight">
+              <h3 className="text-xl  text-[#333333] mb-2 tracking-tight">
                 Need More Support?
               </h3>
-              <p className="text-base sm:text-lg text-[#333333] tracking-tight">
+              <p className="text-base  text-[#333333] tracking-tight">
                 Connect with our AI assistant or reach out to our partners
               </p>
             </div>

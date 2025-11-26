@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Smile, Box, Wind, Users } from "lucide-react";
+import { Smile, Box, Wind, Users, ArrowLeft } from "lucide-react";
 import { BreathingModal } from "../../Components/User/BreathingModal";
+import { useNavigate } from "react-router-dom";
 
 const exercises = [
   {
@@ -51,11 +52,19 @@ const exercises = [
 
 export function BreathingExercises() {
   const [selectedExercise, setSelectedExercise] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50">
       {/* Header Section */}
       <div className="bg-white px-4 sm:px-8 md:px-12 lg:px-16 pt-10 sm:pt-14 md:pt-16 pb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-white/20 backdrop-blur-sm text-black px-4 py-3 sm:px-6 rounded-lg flex items-center gap-2 hover:bg-white/30 transition-colors mb-6"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span>Back</span>
+        </button>
         <div className="max-w-3xl mx-auto">
           {/* Center Illustration */}
           <div className="bg-[#e8f2fc] rounded-2xl p-3 flex items-center justify-center h-[180px] sm:h-[220px] mb-6">
@@ -139,7 +148,7 @@ export function BreathingExercises() {
                 {/* Start Button */}
                 <button
                   onClick={() => setSelectedExercise(exercise.id)}
-                  className={`w-full h-16 sm:h-20 bg-linear-to-r ${exercise.gradient} text-white rounded-lg border border-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
+                  className={`w-full h-16 sm:h-20 bg-[#1560b7] text-white rounded-lg border border-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
                 >
                   <span className="text-sm sm:text-base">Start exercise</span>
                   <svg

@@ -28,7 +28,7 @@ const stressCategories = [
     description: "Worried about grades",
     image:
       "https://images.unsplash.com/photo-1633940907831-945322bc60f3?crop=entropy&cs=tinysrgb&fit=max&q=80&w=1080",
-    route: "/academic-performance",
+    route: "/user/stress-management/videos",
   },
   {
     title: "Other concern",
@@ -91,7 +91,10 @@ export default function StressManagement() {
       <div className="flex justify-center gap-4 sm:gap-6 md:gap-8 py-6">
         <motion.button
           whileTap={{ scale: 0.95 }}
-          onClick={() => setActiveTab("identify")}
+          onClick={() => {
+            setActiveTab("identify");
+            navigate("/user/stress-management");
+          }}
           className={`
             w-[120px] sm:w-[150px] md:w-[180px]
             h-[45px] sm:h-[55px] md:h-[65px]
@@ -109,7 +112,10 @@ export default function StressManagement() {
 
         <motion.button
           whileTap={{ scale: 0.95 }}
-          onClick={() => setActiveTab("solution")}
+          onClick={() => {
+            setActiveTab("solution");
+            navigate("/user/stress-management/academics");
+          }}
           className={`
             w-[120px] sm:w-[150px] md:w-[180px]
             h-[45px] sm:h-[55px] md:h-[65px]
