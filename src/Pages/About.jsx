@@ -129,7 +129,7 @@ export function About() {
             What Drives Us
           </h3>
 
-          <div className="space-y-5">
+          <div className="space-y-8">
             {/* EMPATHY */}
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 bg-[#1560b7] rounded-full flex items-center justify-center">
