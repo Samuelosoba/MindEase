@@ -91,7 +91,7 @@ export default function Nav() {
           <NavLink
             to="/user"
             className={({ isActive }) =>
-              `py-2 px-4 border-2 rounded-4xl transition ${
+              `py-4 px-4 border-2 rounded-4xl ${
                 isActive
                   ? "border-[#1560B7] text-[#1560B7] font-semibold"
                   : "border-[#1560B7] hover:bg-[#1560B7] hover:text-white"

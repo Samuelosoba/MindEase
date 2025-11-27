@@ -59,7 +59,7 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="px-6 sm:px-10 md:px-16 mb-16"
+        className="px-6 sm:px-10 md:px-16 my-16"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
@@ -110,12 +110,10 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         variants={{ visible: { transition: { staggerChildren: 0.25 } } }}
         className="bg-[#f9fafc] px-6 sm:px-10 md:px-16 py-12"
+        id="features"
       >
         <div className="flex flex-col items-center text-center gap-2">
-          <button
-            id="features"
-            className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base"
-          >
+          <button className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base">
             Features You Need
           </button>
 
