@@ -7,25 +7,53 @@ import { FcGoogle } from "react-icons/fc";
 import Logo from "../assets/MindEase.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { Eye, EyeOff } from "lucide-react";
 
 const API_BASE = "https://mind-ease-backend-f68j.onrender.com/api/v1";
 
-function Input({ label, id, type = "text", formik, name, placeholder }) {
+// -------------------------
+// INPUT COMPONENT WITH EYE
+// -------------------------
+function Input({
+  label,
+  id,
+  type = "text",
+  formik,
+  name,
+  placeholder,
+  isPassword,
+}) {
+  const [show, setShow] = useState(false);
+
   return (
     <div className="w-full">
       <label htmlFor={id} className="block text-xs text-gray-500 mb-2">
         {label}
       </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values[name]}
-        className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-0 bg-white"
-      />
+
+      <div className="relative">
+        <input
+          id={id}
+          name={name}
+          type={isPassword ? (show ? "text" : "password") : type}
+          placeholder={placeholder}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[name]}
+          className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 focus:outline-none bg-white"
+        />
+
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShow(!show)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+          >
+            {show ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        )}
+      </div>
+
       {formik.touched[name] && formik.errors[name] && (
         <p className="mt-1 text-[12px] text-red-500">{formik.errors[name]}</p>
       )}
@@ -33,13 +61,88 @@ function Input({ label, id, type = "text", formik, name, placeholder }) {
   );
 }
 
+// -------------------------
+// FORGOT PASSWORD MODAL
+// -------------------------
+function ForgotPasswordModal({ open, onClose }) {
+  const [email, setEmail] = useState("");
+  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleReset = async () => {
+    setLoading(true);
+    setMsg("");
+
+    try {
+      await axios.put(`${API_BASE}/user/reset-password`, {
+        email,
+        redirectURL: window.location.origin,
+      });
+
+      setMsg("Reset link sent! Check your email.");
+    } catch (err) {
+      setMsg(err?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center px-4 z-50">
+      <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-lg">
+        <h2 className="text-xl font-bold mb-2">Reset Password</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Enter your email to receive a reset link.
+        </p>
+
+        <input
+          type="email"
+          placeholder="you@email.com"
+          className="w-full px-4 py-3 border rounded-md mb-3 text-sm"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        {msg && <p className="text-sm text-center text-blue-600 mb-3">{msg}</p>}
+
+        <div className="flex justify-between gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 py-3 border rounded-md text-sm"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleReset}
+            disabled={loading}
+            className="flex-1 py-3 bg-[#1560B7] text-white rounded-md text-sm"
+          >
+            {loading ? "Sending..." : "Send Link"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// -------------------------
+// MAIN AUTH PAGE
+// -------------------------
 export default function AuthPage() {
   const [mode, setMode] = useState("login");
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [forgotOpen, setForgotOpen] = useState(false);
+
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  // -------------------------
+  // LOGIN FORM
+  // -------------------------
   const loginFormik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object({
@@ -53,11 +156,9 @@ export default function AuthPage() {
       setLoading(true);
       try {
         const res = await axios.post(`${API_BASE}/auth/login`, values);
-
         const { token, userDTO } = res.data;
 
-        login(token, userDTO); // ⬅ SAVE token + user globally
-
+        login(token, userDTO);
         navigate("/selection");
       } catch (err) {
         setApiError(err?.response?.data?.message || err.message);
@@ -67,6 +168,9 @@ export default function AuthPage() {
     },
   });
 
+  // -------------------------
+  // SIGNUP FORM
+  // -------------------------
   const signupFormik = useFormik({
     initialValues: {
       firstName: "",
@@ -97,7 +201,7 @@ export default function AuthPage() {
           password: values.password,
         });
 
-        alert("Account created. Please log in.");
+        alert("Account created successfully. Login now.");
         setMode("login");
       } catch (err) {
         setApiError(err?.response?.data?.message || err.message);
@@ -108,36 +212,34 @@ export default function AuthPage() {
   });
 
   return (
-    <div className="bg-[#F9FAFB]  min-h-screen flex items-center justify-center pt-10">
-      <div className="w-full  bg-white shadow-sm overflow-hidden">
+    <div className="bg-[#F9FAFB] min-h-screen flex items-center justify-center pt-10">
+      <div className="w-full bg-white shadow-sm overflow-hidden">
         <Nav />
 
-        <div className="px-4 sm:px-8 md:px-12 py-10  mt-10">
+        {/* BODY */}
+        <div className="px-4 sm:px-8 md:px-12 py-10 mt-10">
           <div className="text-center">
-            <div className="w-12 h-12  mx-auto mb-4 flex items-center justify-center text-white">
-              <img
-                src={Logo}
-                alt="MindEase Logo"
-                className="w-10 h-10 md:w-14 md:h-14 object-contain"
-              />
-            </div>
-
+            <img
+              src={Logo}
+              alt="MindEase Logo"
+              className="w-14 h-14 mx-auto mb-3"
+            />
             <h2 className="text-xl sm:text-2xl font-bold">
               {mode === "login" ? "Welcome Back!" : "Create an account."}
             </h2>
-
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500">
               {mode === "login"
                 ? "Continue your wellness journey"
                 : "Start your wellness journey today!"}
             </p>
           </div>
 
+          {/* SWITCH BUTTON */}
           <div className="mt-8 w-full max-w-md mx-auto">
             <div className="bg-[#8499ac] rounded-full p-1 flex items-center border border-gray-200">
               <button
                 onClick={() => setMode("login")}
-                className={`flex-1 rounded-full py-2 text-sm transition-all ${
+                className={`flex-1 rounded-full py-2 text-sm ${
                   mode === "login"
                     ? "bg-white shadow text-gray-800"
                     : "text-white"
@@ -145,9 +247,10 @@ export default function AuthPage() {
               >
                 Login
               </button>
+
               <button
                 onClick={() => setMode("signup")}
-                className={`flex-1 rounded-full py-2 text-sm transition-all ${
+                className={`flex-1 rounded-full py-2 text-sm ${
                   mode === "signup"
                     ? "bg-white shadow text-gray-800"
                     : "text-white"
@@ -157,6 +260,7 @@ export default function AuthPage() {
               </button>
             </div>
 
+            {/* Google Btn */}
             <div className="mt-6">
               <button
                 type="button"
@@ -179,7 +283,11 @@ export default function AuthPage() {
               </div>
             )}
 
+            {/* FORMS */}
             {mode === "login" ? (
+              // -------------------------
+              // LOGIN FORM
+              // -------------------------
               <form onSubmit={loginFormik.handleSubmit} className="space-y-4">
                 <Input
                   label="Email Address"
@@ -193,7 +301,7 @@ export default function AuthPage() {
                   label="Password"
                   id="login-password"
                   name="password"
-                  type="password"
+                  isPassword={true}
                   placeholder="********"
                   formik={loginFormik}
                 />
@@ -202,7 +310,12 @@ export default function AuthPage() {
                   <label className="flex items-center gap-2">
                     <input type="checkbox" className="w-4 h-4" /> Remember me
                   </label>
-                  <button type="button" className="underline">
+
+                  <button
+                    type="button"
+                    onClick={() => setForgotOpen(true)}
+                    className="underline"
+                  >
                     Forgot Password?
                   </button>
                 </div>
@@ -227,6 +340,9 @@ export default function AuthPage() {
                 </p>
               </form>
             ) : (
+              // -------------------------
+              // SIGNUP FORM
+              // -------------------------
               <form onSubmit={signupFormik.handleSubmit} className="space-y-4">
                 <Input
                   label="First Name"
@@ -235,6 +351,7 @@ export default function AuthPage() {
                   placeholder="First"
                   formik={signupFormik}
                 />
+
                 <Input
                   label="Last Name"
                   id="last"
@@ -242,6 +359,7 @@ export default function AuthPage() {
                   placeholder="Last"
                   formik={signupFormik}
                 />
+
                 <Input
                   label="Email Address"
                   id="signup-email"
@@ -249,19 +367,21 @@ export default function AuthPage() {
                   placeholder="you@email.com"
                   formik={signupFormik}
                 />
+
                 <Input
                   label="Password"
                   id="signup-password"
                   name="password"
-                  type="password"
+                  isPassword={true}
                   placeholder="********"
                   formik={signupFormik}
                 />
+
                 <Input
                   label="Confirm Password"
                   id="signup-confirm"
                   name="confirmPassword"
-                  type="password"
+                  isPassword={true}
                   placeholder="********"
                   formik={signupFormik}
                 />
@@ -289,12 +409,19 @@ export default function AuthPage() {
           </div>
         </div>
 
+        {/* FOOTER */}
         <div className="bg-[#1560B7] text-white text-center py-6">
           <p className="max-w-xl mx-auto italic">
             “It's okay to take things one step at a time...”
           </p>
         </div>
       </div>
+
+      {/* FORGOT PASSWORD MODAL */}
+      <ForgotPasswordModal
+        open={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+      />
     </div>
   );
 }
