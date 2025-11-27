@@ -4,7 +4,7 @@ import { AuthProvider } from "./contexts/AuthProvider";
 
 export default function App() {
   return (
-    <div>
+    <div className="">
       <AuthProvider>
         <AppRoute />
       </AuthProvider>
