@@ -4,7 +4,7 @@ import Stress from "../assets/Stress.png";
 import Time from "../assets/time.png";
 import Sleep from "../assets/sleep.png";
 import Stats from "../Components/Stats";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -13,16 +13,18 @@ const fadeUp = {
 
 export default function Home() {
   const navigate = useNavigate();
+
   return (
     <div className="w-full">
-      {/* HERO SECTION (NO ANIMATION) */}
-      <section className="bg-[#F9FAFB] min-h-screen md:h-[600px] flex items-center py-10">
+      {/* HERO SECTION */}
+      <section className="bg-[#F9FAFB] min-h-screen md:h-[600px] flex items-center py-12">
         <div className="px-6 sm:px-10 md:px-16 w-full">
-          <h1 className="text-[#1560B7] text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
+          <h1 className="text-[#1560B7] text-3xl sm:text-5xl md:text-6xl font-bold leading-tight">
             Ease Your Mind.
             <br /> Focus on What Matters.
           </h1>
-          <p className="mt-6 max-w-2xl text-base sm:text-lg">
+
+          <p className="mt-6 max-w-2xl text-sm sm:text-lg md:text-xl">
             Navigate academic stress, improve your sleep, and master time
             management with personalized support designed for students like you.
           </p>
@@ -30,12 +32,11 @@ export default function Home() {
           <div className="flex flex-wrap mt-6 gap-4">
             <button
               className="border-[#1560B7] border-2 px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base"
-              onClick={() => {
-                navigate("/auth");
-              }}
+              onClick={() => navigate("/auth")}
             >
               Start Now
             </button>
+
             <button
               className="bg-[#1560B7] text-white px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base"
               onClick={() => navigate("/about")}
@@ -44,7 +45,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-6 text-sm sm:text-base">
+          <div className="flex flex-wrap gap-3 mt-6 text-xs sm:text-base">
             <p>100% Free</p>
             <p>Science-backed</p>
             <p>Student-focused</p>
@@ -58,49 +59,51 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="px-6 sm:px-10 md:px-16 mb-12"
+        className="px-6 sm:px-10 md:px-16 mb-16"
       >
-        {[
-          {
-            bg: "bg-[#f6f9fe]",
-            border: "border-[#E8F2FC]",
-            image: Stress,
-            title: "Stress Level",
-            text: "Managable",
-          },
-          {
-            bg: "bg-[#f7fcf8]",
-            border: "border-[#ECF8ED]",
-            image: Sleep,
-            title: "Sleep Quality",
-            text: "75% Toady",
-          },
-          {
-            bg: "bg-[#FEF6F6]",
-            border: "border-[#F9D4D2]",
-            image: Stress,
-            title: "Focus Time",
-            text: "4 hours",
-          },
-        ].map((item, index) => (
-          <div
-            key={index}
-            className={`${item.bg} border ${item.border} rounded-md p-6 flex items-center gap-4 mb-4`}
-          >
-            <img
-              src={item.image}
-              alt=""
-              className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
-            />
-            <div>
-              <h2 className="text-lg font-semibold">{item.title}</h2>
-              <p className="text-sm sm:text-base">{item.text}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              bg: "bg-[#f6f9fe]",
+              border: "border-[#E8F2FC]",
+              image: Stress,
+              title: "Stress Level",
+              text: "Manageable",
+            },
+            {
+              bg: "bg-[#f7fcf8]",
+              border: "border-[#ECF8ED]",
+              image: Sleep,
+              title: "Sleep Quality",
+              text: "75% Today",
+            },
+            {
+              bg: "bg-[#FEF6F6]",
+              border: "border-[#F9D4D2]",
+              image: Time,
+              title: "Focus Time",
+              text: "4 hours",
+            },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className={`${item.bg} border ${item.border} rounded-xl p-6 flex items-center gap-4`}
+            >
+              <img
+                src={item.image}
+                alt=""
+                className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+              />
+              <div>
+                <h2 className="text-lg font-semibold">{item.title}</h2>
+                <p className="text-sm sm:text-base">{item.text}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </motion.section>
 
-      {/* FEATURES SECTION WITH INDIVIDUAL CARD ANIMATIONS */}
+      {/* FEATURES SECTION */}
       <motion.section
         initial="hidden"
         whileInView="visible"
@@ -110,22 +113,24 @@ export default function Home() {
       >
         <div className="flex flex-col items-center text-center gap-2">
           <button
-            className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base"
             id="features"
+            className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base"
           >
             Features You Need
           </button>
-          <h1 className="text-xl sm:text-2xl font-bold">
+
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
             Everything You Need To Thrive
           </h1>
-          <p className="text-sm sm:text-base">
+
+          <p className="text-sm sm:text-base max-w-xl">
             Comprehensive tools designed specifically for student wellness
           </p>
         </div>
 
-        {/* INDIVIDUAL CARD ANIMATION GRID */}
+        {/* Responsive Grid */}
         <motion.div
-          className="mt-12 flex flex-col gap-6"
+          className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={{ visible: { transition: { staggerChildren: 0.25 } } }}
         >
           {[
@@ -140,8 +145,8 @@ export default function Home() {
               bg: "bg-[#f7fcf8]",
               border: "border-[#ECF8ED]",
               image: Time,
-              text: "Plan your study sessions effectively, set realistic goals, and maintain a healthy work-life balance.",
               title: "Time Management",
+              text: "Plan your study sessions effectively, set realistic goals, and maintain a healthy work-life balance.",
             },
             {
               bg: "bg-[#FEF6F6]",
@@ -154,17 +159,16 @@ export default function Home() {
             <motion.div
               key={index}
               variants={fadeUp}
-              className={`${item.bg} border ${item.border} rounded-md p-6 flex flex-col space-y-3`}
+              className={`${item.bg} border ${item.border} rounded-xl p-6 flex flex-col items-start space-y-4`}
             >
               <img
                 src={item.image}
                 alt=""
-                className="w-40 md:w-60 md:h-60 h-40 object-cover rounded-2xl"
+                className="w-full h-48 md:h-56 object-cover rounded-2xl"
               />
-              <div>
-                <h2 className="text-lg font-semibold">{item.title}</h2>
-                <p className="text-sm sm:text-base">{item.text}</p>
-              </div>
+
+              <h2 className="text-lg sm:text-xl font-semibold">{item.title}</h2>
+              <p className="text-sm sm:text-base">{item.text}</p>
             </motion.div>
           ))}
         </motion.div>

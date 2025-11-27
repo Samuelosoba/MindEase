@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
     <>
       {showLayout && <Nav />}
 
-      <main>{children}</main>
+      <main className="max-w-[1200px]">{children}</main>
       {showLayout && <Footer />}
     </>
   );
