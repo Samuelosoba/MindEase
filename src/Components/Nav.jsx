@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/MindEase.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +46,10 @@ export default function Nav() {
           <li className="cursor-pointer hover:text-[#1560B7] transition p-4">
             About MindEase
           </li>
-          <button className="cursor-pointer py-2 px-4 border-[#1560B7] border-3 rounded-4xl transition">
+          <button
+            className="cursor-pointer py-2 px-4 border-[#1560B7] border-3 rounded-4xl transition"
+            onClick={() => navigate("/user")}
+          >
             Find Your rhythm
           </button>
         </ul>
@@ -71,7 +75,10 @@ export default function Nav() {
           </NavLink>
           <NavLink
             className="text-[#1560B7] border-2 py-2 px-4 border-[#1560B7] rounded-4xl"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            to="/user"
           >
             Find Your Rhythm
           </NavLink>
