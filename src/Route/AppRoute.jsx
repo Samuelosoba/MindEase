@@ -14,6 +14,7 @@ import UserDashboard from "../Components/User/UserDashboard";
 import SelectionPage from "../Pages/User/SelectionPage";
 import ScrollToTop from "../Components/ScrollToTop";
 import ProtectedRoute from "./ProtectedRoute";
+import { About } from "../Pages/About";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -42,6 +43,14 @@ export default function AppRoute() {
             element={
               <Layout>
                 <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Layout>
+                <About />
               </Layout>
             }
           />

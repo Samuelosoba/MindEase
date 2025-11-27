@@ -36,7 +36,10 @@ export default function Home() {
             >
               Start Now
             </button>
-            <button className="bg-[#1560B7] text-white px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base">
+            <button
+              className="bg-[#1560B7] text-white px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base"
+              onClick={() => navigate("/about")}
+            >
               Learn More
             </button>
           </div>
@@ -106,7 +109,10 @@ export default function Home() {
         className="bg-[#f9fafc] px-6 sm:px-10 md:px-16 py-12"
       >
         <div className="flex flex-col items-center text-center gap-2">
-          <button className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base">
+          <button
+            className="px-6 py-3 sm:px-8 sm:py-4 mb-2 rounded-xl text-[#1560B7] border border-[#1560B7] text-sm sm:text-base"
+            id="features"
+          >
             Features You Need
           </button>
           <h1 className="text-xl sm:text-2xl font-bold">
