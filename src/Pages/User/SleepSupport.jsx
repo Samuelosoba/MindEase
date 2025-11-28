@@ -39,7 +39,7 @@ const tracks = [
     duration: "45:50",
     image:
       "https://images.unsplash.com/photo-1659839946290-3e4741cba27f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb3Jlc3QlMjBiaXJkcyUyMG5hdHVyZXxlbnwxfHx8fDE3NjMzODY4NDd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    audio: "https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3",
+    audio: "https://assets.mixkit.co/active_storage/sfx/1210/1210-preview.mp3",
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const tracks = [
     duration: "120:00",
     image:
       "https://images.unsplash.com/photo-1601313387875-892dd18fabb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwaWFubyUyMGtleXMlMjBtdXNpY3xlbnwxfHx8fDE3NjMzODY4NDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    audio: "https://assets.mixkit.co/active_storage/sfx/2390/2390-preview.mp3",
+    audio: "https://assets.mixkit.co/music/614/614.mp3",
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ const tracks = [
     duration: "50:00",
     image:
       "https://images.unsplash.com/photo-1762339157963-5209639d12af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpdGF0aW9uJTIwYmVsbCUyMHBlYWNlZnVsfGVufDF8fHx8MTc2MzM4Njg0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    audio: "https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3",
+    audio: "https://assets.mixkit.co/music/127/127.mp3",
   },
   {
     id: 7,
@@ -823,4 +823,3 @@ function PlaylistCard({ playlist, onClick }) {
     </button>
   );
 }
-

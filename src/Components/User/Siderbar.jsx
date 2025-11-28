@@ -11,8 +11,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Settings,
+  User,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthProvider";
+import { ImProfile } from "react-icons/im";
 
 export const Sidebar = ({ isOpen, setIsOpen }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -141,32 +143,31 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
         </nav>
 
         {/* SETTINGS BUTTON */}
-
-        <div className="p-3">
+        <div className="p-2 sm:p-3">
           <button
             onClick={() => navigate("/user/settings")}
             className={`w-full flex items-center ${
-              isCollapsed ? "justify-center" : "gap-3"
-            } px-3 py-3 rounded-lg hover:bg-gray-200 transition font-semibold`}
+              isCollapsed ? "justify-center px-0 py-0" : "gap-3 px-3 py-2"
+            }  rounded-lg hover:bg-gray-200 transition-all duration-200`}
           >
-            <Settings size={isCollapsed ? 25 : 22} />
-            {!isCollapsed && <span>Settings</span>}
+            <Settings size={isCollapsed ? 25 : 25} />
+            {!isCollapsed && (
+              <span className="font-medium text-gray-700">Settings</span>
+            )}
           </button>
         </div>
 
-        {/* LOGOUT */}
-        <div className="border-t border-gray-200 p-3  mb-2">
+        {/* USER / LOGOUT BUTTON */}
+        <div className="border-t border-gray-200 p-2 sm:p-3 mt-2">
           <button
-            onClick={handleLogout}
-            className={`flex items-center gap-3 px-3 py-3 w-full rounded-lg 
-    hover:bg-red-50 transition ${
-      isCollapsed ? "justify-center px-0 py-0" : ""
-    }`}
+            onClick={() => navigate("/user/settings")}
+            className={`w-full flex items-center ${
+              isCollapsed ? "justify-center" : "gap-3 px-3 py-2"
+            }  rounded-lg hover:bg-red-50 transition-all duration-200`}
           >
-            <p>Hi</p>
-
+            <User size={isCollapsed ? 25 : 25} />
             <span
-              className={`font-medium transition-all ${
+              className={`font-medium text-gray-800 transition-all duration-200 ${
                 isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
               }`}
             >

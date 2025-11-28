@@ -10,18 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Dialog, DialogContent } from "../../Components/User/Dialog";
-import api from "../../Utils/axios"; // Make sure you have created this axios instance
+import api from "../../Utils/axios";
 
 export default function TimeManagement() {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskTime, setNewTaskTime] = useState("");
-
-  // At the top of the component
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isAdding, setIsAdding] = useState(false);
 
-  // For displaying the header date dynamically
   const headerDate = selectedDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -29,19 +27,36 @@ export default function TimeManagement() {
     year: "numeric",
   });
 
-  // Fetch tasks only for the selected date
+  /** -------------------------------------------------
+   *  ⭐ Load Completed Tasks From Storage (per date)
+   * ------------------------------------------------- */
+  const getStoredCompletion = () => {
+    const key = `completedTasks-${selectedDate.toDateString()}`;
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : {};
+  };
+
+  const saveCompleted = (completed) => {
+    const key = `completedTasks-${selectedDate.toDateString()}`;
+    localStorage.setItem(key, JSON.stringify(completed));
+  };
+
+  /** -------------------------------------------------
+   *  ✨ Fetch Tasks From Backend
+   * ------------------------------------------------- */
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const res = await api.get("/reminders");
+        const storedCompleted = getStoredCompletion();
 
         const mappedTasks = res.data
           .filter((task) => {
-            const taskDate = new Date(task.dueDateTime);
+            const date = new Date(task.dueDateTime);
             return (
-              taskDate.getFullYear() === selectedDate.getFullYear() &&
-              taskDate.getMonth() === selectedDate.getMonth() &&
-              taskDate.getDate() === selectedDate.getDate()
+              date.getFullYear() === selectedDate.getFullYear() &&
+              date.getMonth() === selectedDate.getMonth() &&
+              date.getDate() === selectedDate.getDate()
             );
           })
           .map((task) => ({
@@ -51,8 +66,8 @@ export default function TimeManagement() {
               hour: "2-digit",
               minute: "2-digit",
             }),
-            status: task.sent ? "completed" : "pending",
-            checked: task.sent,
+            checked: storedCompleted[task.id] || false,
+            status: storedCompleted[task.id] ? "completed" : "pending",
           }));
 
         setTasks(mappedTasks);
@@ -64,59 +79,74 @@ export default function TimeManagement() {
     fetchTasks();
   }, [selectedDate]);
 
-  // Toggle task completion locally (update backend if needed)
+  /** -------------------------------------------------
+   *  ✔ Toggle Task + Persist For The Day
+   * ------------------------------------------------- */
   const toggleTask = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              checked: !task.checked,
-              status: !task.checked ? "completed" : "pending",
-            }
-          : task
-      )
+    const updatedTasks = tasks.map((task) =>
+      task.id === id
+        ? {
+            ...task,
+            checked: !task.checked,
+            status: !task.checked ? "completed" : "pending",
+          }
+        : task
     );
+
+    setTasks(updatedTasks);
+
+    // Update localStorage
+    const completed = getStoredCompletion();
+    if (completed[id]) delete completed[id];
+    else completed[id] = true;
+    saveCompleted(completed);
   };
 
-  // Add task and post to backend
+  /** -------------------------------------------------
+   *  ➕ Add New Task
+   * ------------------------------------------------- */
+  // Update addTask function
   const addTask = async () => {
-    if (newTaskTitle.trim() && newTaskTime.trim()) {
-      try {
-        // Convert time to full ISO string
-        const today = new Date();
-        const [hours, minutes] = newTaskTime.split(":");
-        const dueDate = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate(),
-          parseInt(hours),
-          parseInt(minutes)
-        );
+    if (!newTaskTitle.trim() || !newTaskTime.trim()) return;
 
-        const res = await api.post("/set-reminder", {
-          notes: newTaskTitle,
-          setDateTime: new Date().toISOString(), // current time
-          dueDateTime: dueDate.toISOString(), // full ISO string with time
-        });
+    setIsAdding(true); // Start loading
 
-        setTasks([
-          ...tasks,
-          {
-            id: res.data.id,
-            title: res.data.notes,
-            time: newTaskTime,
-            status: "pending",
-            checked: false,
-          },
-        ]);
+    try {
+      const today = new Date();
+      const [hours, minutes] = newTaskTime.split(":");
 
-        setNewTaskTitle("");
-        setNewTaskTime("");
-        setIsModalOpen(false);
-      } catch (error) {
-        console.error("Error creating task:", error);
-      }
+      const dueDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        parseInt(hours),
+        parseInt(minutes)
+      );
+
+      const res = await api.post("/set-reminder", {
+        notes: newTaskTitle,
+        setDateTime: new Date().toISOString(),
+        dueDateTime: dueDate.toISOString(),
+      });
+
+      setTasks([
+        ...tasks,
+        {
+          id: res.data.id,
+          title: res.data.notes,
+          time: newTaskTime,
+          checked: false,
+          status: "pending",
+        },
+      ]);
+
+      setNewTaskTitle("");
+      setNewTaskTime("");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    } finally {
+      setIsAdding(false); // Stop loading
     }
   };
 
@@ -126,6 +156,9 @@ export default function TimeManagement() {
     setIsModalOpen(false);
   };
 
+  /** -------------------------------------------------
+   *  Charts + UI Helpers
+   * ------------------------------------------------- */
   const completedCount = tasks.filter((t) => t.checked).length;
   const remainingCount = tasks.length - completedCount;
   const completionPercentage = tasks.length
@@ -155,8 +188,6 @@ export default function TimeManagement() {
           text: "text-[#2d6c30]",
           label: "Completed",
         };
-      case "ongoing":
-        return { bg: "bg-[#e8f2fc]", text: "text-[#1560b7]", label: "Ongoing" };
       case "pending":
         return { bg: "bg-[#fce9e8]", text: "text-[#881411]", label: "Pending" };
       default:
@@ -164,10 +195,12 @@ export default function TimeManagement() {
     }
   };
 
-  // Send email reminders
+  /** -------------------------------------------------
+   *  📩 Send Email Reminders
+   * ------------------------------------------------- */
   const sendEmailReminders = async () => {
     try {
-      await api.post("/send-reminders"); // Backend should handle sending emails
+      await api.post("/send-reminders");
       alert("Email reminders sent!");
     } catch (error) {
       console.error("Error sending email reminders:", error);
@@ -214,7 +247,7 @@ export default function TimeManagement() {
 
         {/* Tasks */}
         <div className="bg-white rounded-xl border border-[#d2e5f9] p-4 md:p-6">
-          <h2 className="text-lg  mb-4 font-medium">Today's Task</h2>
+          <h2 className="text-lg mb-4 font-medium">Today's Task</h2>
 
           <div className="space-y-3 md:space-y-4">
             {tasks.map((task) => {
@@ -226,7 +259,7 @@ export default function TimeManagement() {
                 >
                   <button
                     onClick={() => toggleTask(task.id)}
-                    className="w-9 h-9 md:w-10 md:h-10 rounded-lg border-2 border-[#1560b7] flex items-center justify-center hover:bg-gray-300 hover:text-white transition"
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-lg border-2 border-[#1560b7] flex items-center justify-center hover:bg-gray-300 transition"
                   >
                     {task.checked && (
                       <CheckCircle2 className="w-5 h-5 text-[#1560b7]" />
@@ -234,18 +267,12 @@ export default function TimeManagement() {
                   </button>
 
                   <div className="flex-1">
-                    <p className="text-base md:text-lg text-[#333]">
-                      {task.title}
-                    </p>
-                    <p className="text-xs md:text-sm text-[#333]">
-                      {task.time}
-                    </p>
+                    <p className="text-base md:text-lg">{task.title}</p>
+                    <p className="text-xs md:text-sm">{task.time}</p>
                   </div>
 
                   <div className={`${styles.bg} px-3 py-2 rounded-lg`}>
-                    <span
-                      className={`${styles.text} text-xs md:text-sm font-medium`}
-                    >
+                    <span className={`${styles.text} text-xs md:text-sm`}>
                       {styles.label}
                     </span>
                   </div>
@@ -269,15 +296,16 @@ export default function TimeManagement() {
                     data={pieData}
                     innerRadius="65%"
                     outerRadius="80%"
+                    dataKey="value"
                     startAngle={90}
                     endAngle={-270}
-                    dataKey="value"
                   >
                     <Cell fill="#1A78E5" />
                     <Cell fill="#A3C9F5" />
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
+
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-[#104889] text-center">
                   <span className="block text-xl md:text-2xl font-semibold">
@@ -293,13 +321,14 @@ export default function TimeManagement() {
                 <p className="text-lg md:text-xl text-[#1560b7] font-semibold">
                   {completedCount}
                 </p>
-                <p className="text-xs md:text-sm text-[#1560b7]">Tasks done</p>
+                <p className="text-xs md:text-sm">Tasks done</p>
               </div>
+
               <div className="bg-[#ecf8ed] rounded-xl p-4 text-center">
                 <p className="text-lg md:text-xl text-[#2a6f2d] font-semibold">
                   {remainingCount}
                 </p>
-                <p className="text-xs md:text-sm text-[#2a6f2d]">Remaining</p>
+                <p className="text-xs md:text-sm">Remaining</p>
               </div>
             </div>
           </div>
@@ -347,10 +376,10 @@ export default function TimeManagement() {
         </div>
       </div>
 
-      {/* Add Task Button */}
+      {/* Add Task Floating Button */}
       <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-5 right-5 bg-[#1560b7] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md hover:bg-[#104889] transition hover:scale-110"
+        className="fixed bottom-5 right-5 bg-[#1560b7] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md hover:bg-[#104889] hover:scale-110 transition"
       >
         <Plus className="w-5 h-5" />
       </button>
@@ -369,7 +398,7 @@ export default function TimeManagement() {
                 placeholder="Task Title"
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
-                className="w-full text-sm md:text-base text-[#104889] bg-transparent outline-none"
+                className="w-full text-sm md:text-base outline-none bg-transparent"
               />
             </div>
 
@@ -378,24 +407,31 @@ export default function TimeManagement() {
                 type="time"
                 value={newTaskTime}
                 onChange={(e) => setNewTaskTime(e.target.value)}
-                className="w-full text-sm md:text-base text-[#104889] bg-transparent outline-none"
+                className="w-full text-sm md:text-base outline-none bg-transparent"
               />
-              <Clock className="w-4 h-4 md:w-5 md:h-5 text-[#104889]" />
+              {/* <Clock className="w-4 h-4 md:w-5 md:h-5 text-[#104889]" /> */}
             </div>
 
             <div className="flex flex-col md:flex-row gap-3">
               <button
                 onClick={handleCancel}
-                className="bg-[#e8f2fc] text-[#1560b7] px-5 h-12 md:h-12 w-full rounded-xl text-sm md:text-base hover:bg-[#d2e5f9]"
+                className="bg-[#e8f2fc] text-[#1560b7] px-5 h-12 rounded-xl hover:bg-[#d2e5f9]"
               >
                 Cancel
               </button>
 
               <button
                 onClick={addTask}
-                className="bg-[#1560b7] text-white px-5 h-12 md:h-14 w-full rounded-xl text-sm md:text-base hover:bg-[#104889]"
+                disabled={isAdding} // disable when loading
+                className={`bg-[#1560b7] text-white px-5 h-12 rounded-xl hover:bg-[#104889] flex items-center justify-center ${
+                  isAdding ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
-                Add Task
+                {isAdding ? (
+                  <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
+                ) : (
+                  "Add Task"
+                )}
               </button>
             </div>
           </div>

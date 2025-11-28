@@ -1,19 +1,19 @@
 import { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../../contexts/AuthProvider";
+import api from "../../Utils/axios";
 
 export default function Settings() {
-  const { user, logout } = useAuth(); // ⬅ get user & logout from auth
+  const { user, logout } = useAuth();
 
   const [profileData, setProfileData] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
-    email: user?.email || "", // ⬅ email not editable
+    email: user?.email || "",
     schoolName: user?.schoolName || "",
     educationalLevel: user?.educationalLevel || "",
     gender: user?.gender || "",
     date_of_birth: user?.date_of_birth || "",
-    role: user?.role || "", // displayed but not editable
+    role: user?.role || "",
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -21,8 +21,26 @@ export default function Settings() {
     newPassword: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingPassword, setLoadingPassword] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // Auto-clear messages
+  const showMessage = (type, msg) => {
+    if (type === "success") {
+      setSuccessMsg(msg);
+      setErrorMsg("");
+    } else {
+      setErrorMsg(msg);
+      setSuccessMsg("");
+    }
+
+    setTimeout(() => {
+      setSuccessMsg("");
+      setErrorMsg("");
+    }, 4000);
+  };
 
   const handleProfileChange = (e) => {
     setProfileData({ ...profileData, [e.target.name]: e.target.value });
@@ -34,31 +52,32 @@ export default function Settings() {
 
   const updateProfile = async () => {
     try {
-      setLoading(true);
-      await axios.put(
-        "https://your-api.com/api/v1/auth/update-profile",
-        profileData
-      );
-      setMessage("Profile updated successfully!");
+      setLoadingProfile(true);
+      await api.put("/update-profile", profileData);
+      showMessage("success", "Profile updated successfully!");
     } catch (err) {
-      setMessage("Profile update failed.");
+      showMessage(
+        "error",
+        err.response?.data?.message || "Profile update failed."
+      );
     } finally {
-      setLoading(false);
+      setLoadingProfile(false);
     }
   };
 
   const updatePassword = async () => {
     try {
-      setLoading(true);
-      await axios.put(
-        "https://your-api.com/api/v1/auth/reset-password",
-        passwordData
-      );
-      setMessage("Password updated successfully!");
+      setLoadingPassword(true);
+      await api.put("/change-password", passwordData);
+      showMessage("success", "Password changed successfully!");
+      setPasswordData({ oldPassword: "", newPassword: "" });
     } catch (err) {
-      setMessage("Password update failed.");
+      showMessage(
+        "error",
+        err.response?.data?.message || "Password change failed."
+      );
     } finally {
-      setLoading(false);
+      setLoadingPassword(false);
     }
   };
 
@@ -66,8 +85,16 @@ export default function Settings() {
     <div className="w-full min-h-screen bg-gray-50 flex flex-col items-center p-4 md:p-8">
       <h1 className="text-2xl md:text-3xl font-bold mb-6">Settings</h1>
 
-      {message && (
-        <p className="mb-4 text-center text-blue-600 font-medium">{message}</p>
+      {/* NOTIFICATIONS */}
+      {successMsg && (
+        <div className="w-full max-w-2xl bg-green-100 text-green-700 p-3 rounded-xl mb-4 border border-green-300 text-center">
+          {successMsg}
+        </div>
+      )}
+      {errorMsg && (
+        <div className="w-full max-w-2xl bg-red-100 text-red-700 p-3 rounded-xl mb-4 border border-red-300 text-center">
+          {errorMsg}
+        </div>
       )}
 
       {/* ================= PROFILE UPDATE ================= */}
@@ -75,59 +102,30 @@ export default function Settings() {
         <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            className="border p-3 rounded"
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={profileData.firstName}
-            onChange={handleProfileChange}
-          />
+          {[
+            "firstName",
+            "lastName",
+            "schoolName",
+            "educationalLevel",
+            "gender",
+          ].map((field) => (
+            <input
+              key={field}
+              className="border p-3 rounded"
+              type="text"
+              name={field}
+              placeholder={field.replace(/([A-Z])/g, " $1")}
+              value={profileData[field]}
+              onChange={handleProfileChange}
+            />
+          ))}
 
-          <input
-            className="border p-3 rounded"
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={profileData.lastName}
-            onChange={handleProfileChange}
-          />
-
-          {/* EMAIL – not editable */}
           <input
             className="border p-3 rounded bg-gray-200 cursor-not-allowed"
             type="email"
             name="email"
-            placeholder="Email"
             value={profileData.email}
             readOnly
-          />
-
-          <input
-            className="border p-3 rounded"
-            type="text"
-            name="schoolName"
-            placeholder="School Name"
-            value={profileData.schoolName}
-            onChange={handleProfileChange}
-          />
-
-          <input
-            className="border p-3 rounded"
-            type="text"
-            name="educationalLevel"
-            placeholder="Educational Level"
-            value={profileData.educationalLevel}
-            onChange={handleProfileChange}
-          />
-
-          <input
-            className="border p-3 rounded"
-            type="text"
-            name="gender"
-            placeholder="Gender"
-            value={profileData.gender}
-            onChange={handleProfileChange}
           />
 
           <input
@@ -138,7 +136,6 @@ export default function Settings() {
             onChange={handleProfileChange}
           />
 
-          {/* Role (non editable) */}
           <input
             className="border p-3 rounded bg-gray-200 cursor-not-allowed"
             type="text"
@@ -150,12 +147,18 @@ export default function Settings() {
 
         <button
           onClick={updateProfile}
-          className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold"
+          disabled={loadingProfile}
+          className={`mt-6 w-full py-3 rounded-xl font-semibold text-white
+            ${
+              loadingProfile
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }
+          `}
         >
-          {loading ? "Updating..." : "Update Profile"}
+          {loadingProfile ? "Updating..." : "Update Profile"}
         </button>
 
-        {/* LOGOUT BUTTON */}
         <button
           onClick={logout}
           className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold"
@@ -177,7 +180,6 @@ export default function Settings() {
             value={passwordData.oldPassword}
             onChange={handlePasswordChange}
           />
-
           <input
             className="border p-3 rounded"
             type="password"
@@ -190,9 +192,16 @@ export default function Settings() {
 
         <button
           onClick={updatePassword}
-          className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold"
+          disabled={loadingPassword}
+          className={`mt-6 w-full py-3 rounded-xl font-semibold text-white
+            ${
+              loadingPassword
+                ? "bg-green-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700"
+            }
+          `}
         >
-          {loading ? "Updating..." : "Change Password"}
+          {loadingPassword ? "Updating..." : "Change Password"}
         </button>
       </div>
     </div>

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Play, Clock, Eye } from "lucide-react";
 import { Dialog, DialogContent } from "../../Components/User/Dialog";
+import stress from "../../assets/Stress.png";
+import sleep from "../../assets/sleep.png";
 
 const videos = [
   {
@@ -9,7 +11,7 @@ const videos = [
     title: "Exam Stress Relief - 10 Minute Guided Meditation",
     duration: "10:32",
     views: "2.1M",
-    thumbnail: "https://img.youtube.com/vi/ZToicYcHIOU/maxresdefault.jpg",
+    thumbnail: sleep,
     embedUrl: "https://www.youtube.com/embed/ZToicYcHIOU",
     category: "Exam Stress",
     description: "Calm your mind before exams with this guided meditation",
@@ -60,7 +62,7 @@ const videos = [
     title: "Overcoming Test Anxiety - Psychology Tips",
     duration: "12:30",
     views: "1.2M",
-    thumbnail: "https://img.youtube.com/vi/t-5ajMazD94/maxresdefault.jpg",
+    thumbnail: stress,
     embedUrl: "https://www.youtube.com/embed/t-5ajMazD94",
     category: "Exam Stress",
     description: "Evidence-based strategies to manage test anxiety",

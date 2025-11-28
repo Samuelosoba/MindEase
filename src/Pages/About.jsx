@@ -177,7 +177,7 @@ export function About() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
-          className="bg-gradient-to-r from-[#1560b7] to-[#34a853] rounded-3xl p-6 text-white mb-8 mt-12"
+          className="bg-linear-to-r from-[#1560b7] to-[#34a853] rounded-3xl p-6 text-white mb-8 mt-12"
         >
           <h3 className="text-xl md:text-2xl text-center mb-4">
             Built by a Community of Supporters
