@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthProvider";
 export const AIChatbotPage = () => {
   const [input, setInput] = useState("");
   const { user } = useAuth();
-
+  console.log(user);
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -44,18 +44,18 @@ export const AIChatbotPage = () => {
     try {
       // Replace with your backend AI route
       const res = await api.post("/chat-llm", {
-        user_id: user.id, 
-        content: text, 
-        conversation_id: "default",
+        user_id: user.id, // Your logged-in user's ID
+        content: text, // The actual message
+        conversation_id: "default", // Or a real conversation ID
       });
-     
+      console.log("FULL RESPONSE:", res.data);
 
       const reply = res.data.message;
       console.log(reply);
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch (err) {
       console.error("FULL ERROR:", err.response?.data || err);
-      setError(err.response?.data?.message || "Something went wrong.");
+      setError("Oops! Something went wrong with AI. Try again.");
     } finally {
       setLoading(false);
     }
@@ -65,7 +65,7 @@ export const AIChatbotPage = () => {
     <div className="w-full h-screen flex flex-col bg-white p-4 overflow-hidden">
       {/* Top Title */}
       <h2 className="text-center text-xl font-bold text-blue-700 mb-3">
-        MindEase AI
+        MindEase
       </h2>
 
       {/* Chat Area */}
